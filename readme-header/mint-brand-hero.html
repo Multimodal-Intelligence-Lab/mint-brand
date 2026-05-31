@@ -17,29 +17,29 @@
      16:1 strip so the title reads at GitHub's rendered width. We grow the height + title iteratively.
      Flat --sdsu-yellow ground (opaque + full-bleed, so one PNG reads on light AND dark GitHub themes; the
      band texture art is tuned for 16:1 and upscales poorly when taller). Never paste hex.
-     Render: node build.mjs mint-brand-hero.html 1280x140 */
+     Render: node build.mjs mint-brand-hero.html 1280x160 */
   .banner {
-    width: 1280px; height: 140px;            /* grow this (and the title) as we iterate */
+    width: 1280px; height: 160px;            /* band height — keep fixed; tune the title, not this */
     font-family: "Inter", -apple-system, sans-serif;
     position: relative; overflow: hidden;
     background: var(--sdsu-yellow); color: var(--sdsu-blue);
   }
-  .corner { position: absolute; top: 0; right: 0; width: 48px; height: 48px; z-index: 3; }   /* 0.34 × band-h, as the poster */
+  .corner { position: absolute; top: 0; right: 0; width: 54px; height: 54px; z-index: 3; }   /* 0.34 × band-h, as the poster */
   .lockup {
     position: absolute; left: 34px; top: 50%; transform: translateY(-50%);
     z-index: 2; display: flex; align-items: center; gap: 18px;
   }
-  .lockup .sdsu { height: 102px; width: auto; display: block; }   /* ~73% of band, as the deck/poster */
-  .lockup .mint { height: 93px; width: auto; display: block; }
+  .lockup .sdsu { height: 116px; width: auto; display: block; }   /* ~72% of band, as the deck/poster */
+  .lockup .mint { height: 106px; width: auto; display: block; }
   .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
   .center {
-    position: absolute; left: 24%; right: 12%; top: 50%; transform: translateY(-50%);
+    position: absolute; left: 20%; right: 16%; top: 50%; transform: translateY(-50%);
     text-align: center; z-index: 2;
   }
-  .center .title   { font-size: 62px; font-weight: 900; line-height: 1.02; letter-spacing: 0.4px; margin: 0; }
+  .center .title   { font-size: 54px; font-weight: 900; line-height: 1.02; letter-spacing: 0.4px; margin: 0; }
   .center .affil   { font-size: 18px; font-weight: 700; margin: 8px 0 0; opacity: 0.95; }
   .center .artifacts { font-size: 14.5px; font-weight: 600; margin: 4px 0 0; opacity: 0.82; letter-spacing: 0.2px; white-space: nowrap; }
-  .qr { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); height: 96px; width: auto; z-index: 2; }
+  .qr { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); height: 108px; width: auto; z-index: 2; }
 </style>
 </head>
 <body>
