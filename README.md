@@ -77,3 +77,7 @@ at rest** (no `node_modules`, no CDN; build steps use on-box tools only). Before
 full contract in **[`AGENTS.md`](AGENTS.md)** (the root rules) and the **`AGENTS.md`** in the folder you're
 working in (the task-specific rules). Every folder has one. Don't reinvent the rules from this overview —
 follow the contract.
+
+## Authors
+- [Mukhtiar Ali](https://github.com/GitAliGator)
+- [Harsh Dubey](https://github.com/hdubey-debug)
