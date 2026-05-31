@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MINT Brand Kit — repo hero</title>
+<style>
+  @import "../brand/colors.css";
+  @font-face {
+    font-family: "Inter";
+    src: url("../brand/fonts/inter-variable-latin.woff2") format("woff2");
+    font-weight: 100 900; font-display: block;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  /* Repo hero — the banner at the top of the root README. NOT the 16:1 readme-header band (that band
+     "matches the poster exactly" and is the per-paper header the readme-header/ module ships). This is a
+     taller GitHub-friendly hero modeled on the slides title slide (.slide--title): flat --sdsu-yellow
+     ground (opaque + full-bleed, so one PNG reads on light AND dark GitHub themes), big --sdsu-blue
+     title, SDSU|MINT lockup, institution + artifact lines. Never paste hex; brand by relative path.
+     Render: node build.mjs mint-brand-hero.html 1280x400 */
+  .hero {
+    width: 1280px; height: 400px;
+    font-family: "Inter", -apple-system, sans-serif;
+    background: var(--sdsu-yellow); color: var(--sdsu-blue);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 20px; text-align: center; padding: 0 64px;
+  }
+  /* blue corner triangle — the header-chrome signature, scaled up from the band's 27px corner */
+  .corner { position: absolute; top: 0; right: 0; width: 104px; height: 104px; z-index: 3; }
+  .lockup { display: flex; align-items: center; gap: 22px; }
+  .lockup .sdsu { height: 86px; width: auto; display: block; }   /* SDSU optically a touch taller, as the deck/poster */
+  .lockup .mint { height: 79px; width: auto; display: block; }
+  .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
+  .title    { font-size: 70px; font-weight: 900; line-height: 1.04; letter-spacing: 0.3px; margin: 0; }
+  .affil    { font-size: 23px; font-weight: 700; margin: 0; opacity: 0.95; }
+  .artifacts{ font-size: 19px; font-weight: 600; margin: 0; opacity: 0.82; letter-spacing: 0.2px; }
+</style>
+</head>
+<body>
+<div class="hero">
+  <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 90 Q100 100 90 92 Z"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+    <span class="sep"></span>
+    <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+  </div>
+  <p class="title"><b>MINT Brand Kit</b></p>
+  <p class="affil">South Dakota State University &middot; Multimodal Intelligence Lab</p>
+  <p class="artifacts">Posters &middot; Slides &middot; README Headers &middot; Demo Pages &middot; Teasers</p>
+</div>
+</body>
+</html>

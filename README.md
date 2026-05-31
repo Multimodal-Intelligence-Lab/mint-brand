@@ -1,4 +1,4 @@
-![MINT — Multimodal Intelligence Lab](docs/samples/header.png)
+![MINT — Multimodal Intelligence Lab](docs/samples/hero.png)
 
 # MINT
 
@@ -12,7 +12,7 @@ mint-brand/
   brand/          ← the foundation — logos · colors.css · fonts · icons · qr   (single source of truth)
   posters/        ← HTML→PDF research-poster templates   — many sizes, one template
   readme-header/  ← branded README header (HTML→PNG)      — the banner at the top of this file
-  slides/         ← conference talk decks                — 1280×720 stage, scaled to fit
+  slides/         ← conference slide decks               — 1280×720 stage, scaled to fit
   videos/         ← auto-playing teasers → MP4/GIF        — timeline + optional voiceover, on-box render
   demo-pages/     ← responsive project / paper pages      — the same brand chrome, built for the web
   docs/samples/   ← the showcase images below             — regenerable; not source
@@ -36,14 +36,14 @@ full steps; the one command that produces the artifact is shown here.
   → <code>dist/my-poster-48x36.pdf</code> · see <a href="posters/README.md">posters/</a></td>
 </tr>
 <tr>
-  <td><img src="docs/samples/slide.png" alt="talk deck"></td>
-  <td><b>Talk deck</b> — a branded 1280×720 slide deck that scales to fit any screen.<br><br>
+  <td><img src="docs/samples/slide.png" alt="slides"></td>
+  <td><b>Slides</b> — a branded 1280×720 slide deck that scales to fit any screen.<br><br>
   Copy <code>slides/deck.html</code>, edit your slides, open it in a browser (no build).<br>
   → see <a href="slides/README.md">slides/</a></td>
 </tr>
 <tr>
   <td><img src="docs/samples/teaser.gif" alt="teaser video"></td>
-  <td><b>Teaser video</b> — an auto-playing timeline (the timed sibling of the deck) → MP4/GIF.<br><br>
+  <td><b>Teaser video</b> — an auto-playing timeline (the timed sibling of the slides) → MP4/GIF.<br><br>
   <code>cd videos && node record.mjs</code><br>
   → <code>dist/teaser.mp4</code> · see <a href="videos/README.md">videos/</a></td>
 </tr>
