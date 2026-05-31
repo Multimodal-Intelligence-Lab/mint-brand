@@ -1,7 +1,7 @@
 # AGENTS.md — readme-header/
 
 **Status: built.** A branded README header on the MINT brand — the same header as the deck
-(`../../reveal_v4/` `.banner`) and the poster band, rendered HTML → PNG. Full brand contract:
+(`slides/`) and the poster band, rendered HTML → PNG. Full brand contract:
 `../AGENTS.md`. Usage: `README.md`.
 
 ## What's here

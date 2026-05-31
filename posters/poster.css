@@ -1,6 +1,6 @@
 /* MINT posters — the shared stylesheet. One template, every size.
    Identity: the MuSDeT look (gold header band, navy body text, blue section bars) carried over
-   from cvpr-poster-template/ and reveal_v4/. Brand primaries are single-sourced from
+   from cvpr-poster-template/. Brand primaries are single-sourced from
    ../brand/colors.css; only the two MuSDeT-identity colors that aren't brand primaries are
    declared locally below (--poster-ink, --panel). Never paste raw hex anywhere else.
 
@@ -94,7 +94,7 @@ body {
   overflow: hidden;
 }
 
-/* ── Header band (port of reveal_v4 .banner / the LaTeX header) ──────────────────────────── */
+/* ── Header band (the LaTeX header) ──────────────────────────── */
 .band {
   position: relative; height: var(--header-h); overflow: hidden;
   /* Pronounced bottom-left sweep, drawn in CSS so it stays perfectly round at any poster width.
@@ -241,7 +241,7 @@ body.trifold .poster::after {
 
 /* ── Footer band (OPTIONAL) ─────────────────────────────────────────────────────────────────
    A slim brand-blue strip that balances the gold header: repo · authors+contact · institution/
-   funding (modeled on the reveal_v4 deck footer). Delete the <footer class="footer"> from the HTML
+   funding (modeled on the deck footer). Delete the <footer class="footer"> from the HTML
    to drop it — the poster grid's auto row collapses and the body reclaims the space. Not used in
    examples/musdet (the original poster has no footer). */
 .footer {
@@ -262,7 +262,7 @@ body.trifold .poster::after {
 .footer a { color: var(--paper); text-decoration: none; }
 
 /* ── Hierarchy — contribution pills (.badge) ─────────────────────────────────────────────────
-   A numbered pill per contribution (port of reveal_v4 .badge). The number differentiates them, so
+   A numbered pill per contribution (the .badge). The number differentiates them, so
    all circles use the brand blue; a paper may recolour a circle per-contribution if it wants. */
 .badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.5rem 0; }
 .badge {
@@ -280,7 +280,7 @@ body.trifold .poster::after {
 }
 
 /* ── Hierarchy — takeaway stat cards (.stat) ─────────────────────────────────────────────────
-   A big navy number in a gold-bordered card (port of reveal_v4 .stat). Gold is reserved here for
+   A big navy number in a gold-bordered card (the .stat). Gold is reserved here for
    "the headline result" — it ties back to the header and is the poster's one emphasis accent. */
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 0.6rem; margin: 0.5rem 0; }
 .stat {

@@ -1,6 +1,6 @@
 /* MINT demo-pages — the shared web stylesheet for a paper / project page.
-   Identity: the same brand as the deck (reveal_v4), the poster, and the readme-header — gold header
-   band + SDSU | MINT lockup + the brand greens/blue — but BUILT FRESH for the screen. reveal_v4 is a
+   Identity: the same brand as the deck, the poster, and the readme-header — gold header
+   band + SDSU | MINT lockup + the brand greens/blue — but BUILT FRESH for the screen. The deck is a
    fixed 1280×720 stage scaled by JS (not responsive); a webpage must reflow, so this *applies* the
    brand tokens to a responsive layout rather than porting print/stage CSS.
 
@@ -179,7 +179,7 @@ p { margin: 0 0 1em; }
 /* ── Abstract / prose ─────────────────────────────────────────────────────────────────────── */
 .abstract p { font-size: var(--fs-lg); }
 
-/* ── Method — contribution pills (.badge, screen port of reveal_v4/poster) ────────────────── */
+/* ── Method — contribution pills (.badge, screen port of the poster) ────────────────── */
 .badges {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem; margin: 1.6rem 0;

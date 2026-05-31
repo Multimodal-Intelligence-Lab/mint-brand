@@ -1,8 +1,8 @@
 /* MINT slides — the deck driver. Dependency-free, no library.
-   - Scales the fixed 1280×720 stage to fit the viewport (the reveal_v4 fitStage approach).
+   - Scales the fixed 1280×720 stage to fit the viewport (fitStage).
    - Steps through slides; within a slide, reveals [data-frag] elements one-by-one before advancing.
    - Keyboard: → / Space / PageDown = next · ← / PageUp = prev · Home/End = first/last · F = fullscreen.
-   No timeline, no audio — this is a talk deck, not the reveal_v4 timed teaser. */
+   No timeline, no audio — this is a talk deck, not the timed teaser. */
 
 const deck   = document.getElementById("deck");
 const slides = [...document.querySelectorAll(".slide")];
@@ -13,7 +13,7 @@ const pageTot  = document.querySelector(".page .total");
 let si = 0;   // current slide index
 let fi = 0;   // fragments revealed in the current slide
 
-/* ---------------- stage scaling (from reveal_v4) ---------------- */
+/* ---------------- stage scaling ---------------- */
 function fitStage() {
   const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
   deck.style.transform =
@@ -71,6 +71,6 @@ if (pageTot) pageTot.textContent = slides.length;
 fitStage();
 show(0, false);
 
-// Fade the keyboard hint after a few seconds (reveal_v4-style: out of the way once you start).
+// Fade the keyboard hint after a few seconds (out of the way once you start).
 const hint = document.querySelector(".hint");
 if (hint) setTimeout(() => hint.classList.add("gone"), 4000);

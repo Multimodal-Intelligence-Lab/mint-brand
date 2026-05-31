@@ -20,7 +20,7 @@
   --border: #cccccc;  /* hairlines, grids, dividers */
   --paper:  #ffffff;  /* surfaces */
 
-  /* ── MuSDeT teaser — REFERENCE ONLY (from ../../reveal_v4/css/theme.css) ────────── */
+  /* ── MuSDeT teaser — REFERENCE ONLY (example per-paper accents, not the brand) ─ */
   /* Example per-paper accents from the MuSDeT teaser — NOT the MINT brand. Kept so a new
      paper can see how the teaser chose an accent + per-modality figure colors. */
   --ref-musdet-gold: #efc500;  /* the teaser's signature, "reserved for our model" */

@@ -4,8 +4,8 @@ A brand-consistent **auto-playing teaser template** on the MINT brand — the ti
 deck. The lab identity is **standardized**: the same fixed gold band (**SDSU │ MINT** lockup + the
 current segment's title) as the deck/poster/demo-page, on the same fixed 1280×720 stage that scales to
 fit any screen. Where `slides/` advances on keypress, the teaser **plays itself** on a timeline with an
-optional synced voiceover — it borrows the stage, the gold band, and the reveal animations from
-`../../reveal_v4/` (the MuSDeT teaser) and re-adds the timeline + audio + autoplay the talk deck dropped.
+optional synced voiceover — it shares the stage, the gold band, and the reveal animations with
+`slides/` and re-adds the timeline + audio + autoplay the talk deck dropped.
 
 The segments between the band are a **fill-in skeleton you edit** — Hook · Approach · Results · Close —
 each a self-contained `<section>` you can edit on its own. Dependency-free at rest (no framework, no CDN):

@@ -17,8 +17,8 @@ Four PNGs. Pick by background and available space; never recolor, stretch, or re
 row) — don't bake a combined image file (that would duplicate the assets). In the reference deck
 SDSU sits slightly taller than MINT (≈96 px vs ≈86 px) for optical balance.
 
-**Where these come from:** `mint-logo*.png` and `mint-mark.png` are derived from the lab logo
-used in `../../../reveal_v4/` — white is the logo's own alpha silhouette painted white; the mark
+**Where these come from:** `mint-logo*.png` and `mint-mark.png` are derived from the lab's master
+logo — white is the logo's own alpha silhouette painted white; the mark
 is the M+leaf crop above the wordmark. The full-color `mint-logo.png` is the faithful master.
 
 **SDSU is a trademark** — don't alter or recolor it. It's bundled as the PNG we have; sourcing

@@ -29,7 +29,7 @@ MINT greens are eyedropped from `logos/mint-logo.png` (the lab's own mark — th
 source for its color). The SDSU primaries are the official
 [SDState brand standards](https://www.sdstate.edu/university-marketing-communications/graphic-identity-standards/colors)
 (PMS 109 / PMS 286) — the logo PNG renders them slightly differently, so use these published
-values, not an eyedrop. The `--ref-musdet-*` set is from `../../reveal_v4/css/theme.css`.
+values, not an eyedrop. The `--ref-musdet-*` set is reference-only example accents, not the lab brand.
 
 ## Design tokens
 `tokens.css` — the **non-color** design tokens (currently the type-scale ratio) as CSS custom

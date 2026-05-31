@@ -6,8 +6,8 @@ brand chrome**; the content between them is a freeform skeleton the author fills
 `../AGENTS.md`. Usage: `README.md`.
 
 A webpage is different from the other modules: its deliverable **is** the live HTML/CSS/JS (GitHub
-Pages), not a rendered artifact (poster → PDF, readme-header → PNG). And `../../reveal_v4/` is a fixed
-1280×720 stage scaled by JS — **not** responsive — so this *applies* the brand tokens to a fresh,
+Pages), not a rendered artifact (poster → PDF, readme-header → PNG). And the `slides/`/`videos/` stage is a fixed
+1280×720 scaled by JS — **not** responsive — so this *applies* the brand tokens to a fresh,
 fluid layout rather than porting stage/print CSS.
 
 ## Filling in a page (for agents)

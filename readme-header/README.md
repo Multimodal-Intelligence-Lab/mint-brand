@@ -1,7 +1,7 @@
 # readme-header
 
 A standardized branded header for lab project READMEs — the **same header** as the deck
-(`reveal_v4`) and the poster: a gold band with the **SDSU │ MINT** lockup, the paper title /
+(`slides/`) and the poster: a gold band with the **SDSU │ MINT** lockup, the paper title /
 authors / affiliation, and the lab QR. So a project's README opens with the same look as its
 poster, slides, or teaser video — whether or not any of those are embedded.
 

@@ -13,7 +13,6 @@ conference talk decks, a fixed 1280×720 stage; see `slides/AGENTS.md`) and `vid
 **teasers** — the timed sibling of the deck, a timeline + optional voiceover on the same 1280×720 stage,
 rendered to MP4 by an on-box headless-Chromium/ffmpeg `record.mjs`; see `videos/AGENTS.md`). Every module
 is now built on `brand/`.
-`../reveal_v4/` is the read-only reference (the MuSDeT teaser) — never modify it.
 `docs/samples/` holds the showcase images embedded in the root `README.md` — regenerable output, not
 source; safe to re-render, never hand-edited.
 
@@ -25,8 +24,8 @@ source; safe to re-render, never hand-edited.
    redraw any logo.
 4. **SDSU is a trademark.** Never recolor, retrace, or redraw it. Only the official vector from the
    university brand office may ever replace the bundled PNG.
-5. **Logos are PNG, not SVG, on purpose.** There is no vector source — confirmed: `reveal_v4` only
-   has the same PNGs. **Do not autotrace** — it degrades the mark (two-tone green, leaf vein,
+5. **Logos are PNG, not SVG, on purpose.** There is no vector source — the logo masters are PNG
+   only. **Do not autotrace** — it degrades the mark (two-tone green, leaf vein,
    wordmark), and the previous build was reset for exactly that. The 1368 px master is high-res
    enough for slides, posters, and README headers.
 6. **QR** lives in `brand/qr/` and encodes the lab GitHub org. Regenerate via its README recipe;

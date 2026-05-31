@@ -1,9 +1,9 @@
-/* MINT videos — the teaser engine (dependency-free, ~adapted from ../../reveal_v4/js/deck.js).
+/* MINT videos — the teaser engine (dependency-free, adapted from slides/deck.js).
    The timed sibling of slides/deck.js: same fitStage() scaling of a fixed 1280×720 stage, but it
    re-adds the two things the talk deck dropped — a millisecond TIMELINE and a synced voiceover —
    driven by an auto-play clock.
 
-   TIMELINE-FROM-DOM: instead of reveal_v4's hand-kept TIMELINE[] array, the timeline IS the markup.
+   TIMELINE-FROM-DOM: instead of a hand-kept TIMELINE[] array, the timeline IS the markup.
    Every element with data-at="<ms>" is a cue; the engine scans them in document order, stable-sorts
    by time, and fires them on the clock. A cue that is a <section class="seg"> switches the active
    segment (and its band state); any other cue gets .is-in (its reveal). So adding/re-timing a beat is

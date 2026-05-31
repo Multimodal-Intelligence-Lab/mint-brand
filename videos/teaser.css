@@ -1,9 +1,9 @@
 /* MINT videos — the stylesheet for a branded, auto-playing teaser.
    Identity: the SAME brand as the slide deck / poster / demo-page — gold band + SDSU | MINT lockup +
-   the brand blue — on the SAME fixed 1280×720 stage that teaser.js scales to fit (the reveal_v4 model).
+   the brand blue — on the SAME fixed 1280×720 stage that teaser.js scales to fit.
    The teaser is the timed sibling of slides/: it re-adds the two things the talk deck dropped — a
    millisecond TIMELINE (here derived from per-cue data-at) and a synced voiceover — driven by an
-   auto-play clock. So this mirrors slides/deck.css, plus the full reveal_v4 motion set and the band
+   auto-play clock. So this mirrors slides/deck.css, plus the full motion set and the band
    "compact watermark" state a teaser uses. Sizes are fixed px against the 720-tall stage (it scales as
    one unit).
 
@@ -96,7 +96,7 @@ img { display: block; max-width: 100%; }
 .bar .lockup { display: flex; align-items: center; gap: 14px; }
 .bar .lockup .sdsu { height: calc(var(--bar-h) * 0.72); width: auto; transition: height 0.5s ease-in-out; }
 .bar .lockup .mint { height: calc(var(--bar-h) * 0.66); width: auto; transition: height 0.5s ease-in-out; }
-/* Full-height divider — align-self:stretch spans the lockup (reveal_v4's pattern); no margin (a margin
+/* Full-height divider — align-self:stretch spans the lockup; no margin (a margin
    here truncated the line to a stub). */
 .bar .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
 .bar .bar-title { text-align: center; font-size: var(--fs-sm); font-weight: 800; min-width: 0;
@@ -107,7 +107,7 @@ img { display: block; max-width: 100%; }
    hero    — the band is hidden (the hook hero is full-bleed gold and carries the lockup itself, so
              there's no gold-on-gold seam); the body reclaims the band's height.
    full    — the default 84px band.
-   compact — the watermark: a short 56px band with smaller logos and no timecode (reveal_v4's later-
+   compact — the watermark: a short 56px band with smaller logos and no timecode (the later-
              segment shrink). --bar-h drives both the bar height and the body's top offset. */
 #stage.band-hero    .bar { display: none; }
 #stage.band-hero    .stage-body { top: 0; }
@@ -193,7 +193,7 @@ img { display: block; max-width: 100%; }
 .seg--close .qr { height: 170px; width: auto; margin-top: 0.4em; }
 .seg--close .links { font-size: var(--fs-sm); font-weight: 700; }
 
-/* ── Reveal primitives — the FULL reveal_v4 set (a teaser uses more motion than a talk deck).
+/* ── Reveal primitives — the FULL set (a teaser uses more motion than a talk deck).
       A cue element starts hidden and gets .is-in when its data-at time fires. Honors reduced-motion. ── */
 .r-fade { opacity: 0; transition: opacity 0.55s ease; }
 .r-up   { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }

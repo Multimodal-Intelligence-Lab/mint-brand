@@ -1,7 +1,7 @@
 /* MINT slides — the shared stylesheet for a branded conference talk deck.
    Identity: the SAME brand as the poster, the demo-page, and the readme-header — gold band + SDSU | MINT
    lockup + the brand blue — but built for a FIXED 1280×720 presentation stage that deck.js scales to fit
-   the viewport (the reveal_v4 model), NOT a reflowing web page. So sizes here are fixed px against the
+   the viewport, NOT a reflowing web page. So sizes here are fixed px against the
    720-tall stage (the stage scales as one unit) — the stage analog of how demo-pages used responsive
    clamp() and poster.css used physical mm. NOT a port of either; a fresh screen-unit chrome.
 
@@ -91,7 +91,7 @@ img { display: block; max-width: 100%; }
 .bar .lockup { display: flex; align-items: center; gap: 14px; }
 .bar .lockup .sdsu { height: calc(var(--bar-h) * 0.72); width: auto; }   /* SDSU optically a touch taller */
 .bar .lockup .mint { height: calc(var(--bar-h) * 0.66); width: auto; }
-/* Full-height divider — align-self:stretch spans the lockup (reveal_v4's pattern); no margin (a margin
+/* Full-height divider — align-self:stretch spans the lockup; no margin (a margin
    here truncated the line to a stub). */
 .bar .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
 .bar .bar-title { text-align: center; font-size: var(--fs-sm); font-weight: 800; min-width: 0;
@@ -194,7 +194,7 @@ img { display: block; max-width: 100%; }
 .slide--closing .qr { height: 200px; width: auto; margin-top: 0.4em; }
 .slide--closing .links { font-size: var(--fs-sm); font-weight: 700; }
 
-/* ── Reveal primitives (fragments) — ported from reveal_v4. Elements with data-frag start hidden and
+/* ── Reveal primitives (fragments). Elements with data-frag start hidden and
       get .is-in one-by-one as you advance. Honors reduced-motion via the media query below. ────── */
 .r-fade { opacity: 0; transition: opacity 0.5s ease; }
 .r-up   { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }

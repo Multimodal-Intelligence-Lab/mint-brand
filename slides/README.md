@@ -7,8 +7,8 @@ the top of every slide, the same gold header as the deck/poster/demo-page. The s
 `<section>` you can edit on its own. The deck is a fixed 1280×720 stage that scales to fit any screen,
 dependency-free (no framework, no CDN) — open `deck.html` in a browser and it just works, no build needed.
 
-This is a **talk deck**, not a timed teaser. It borrows the stage + gold band + reveal animations from
-`../../reveal_v4/` but advances on keypress (no voiceover, no timeline). Want a narrated, auto-playing
+This is a **talk deck**, not a timed teaser. It shares the stage + gold band + reveal animations with
+`videos/` but advances on keypress (no voiceover, no timeline). Want a narrated, auto-playing
 teaser? That belongs in `videos/`.
 
 ## Use it for your talk

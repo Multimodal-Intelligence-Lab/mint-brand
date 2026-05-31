@@ -4,7 +4,7 @@
 poster / demo-page / readme-header. The gold band is the **standardized, locked brand chrome**; the slide
 bodies between the EDIT markers are the author's content. Full brand contract: `../AGENTS.md`. Usage: `README.md`.
 
-This is a **talk deck**, not the `../../reveal_v4/` teaser. It reuses reveal_v4's ideas — the fixed
+This is a **talk deck**, not the timed teaser (`videos/`). It reuses the shared teaser ideas — the fixed
 1280×720 stage scaled to fit, the gold band, the `.r-fade`/`.r-up` reveal primitives — but **drops** the
 voiceover audio and the `TIMELINE[]` auto-play. Slides advance on keypress. (Timed, narrated teasers belong
 in `videos/`, not here.)

@@ -4,13 +4,13 @@
 slide deck. The gold band is the **standardized, locked brand chrome**; the segment bodies between the
 EDIT markers are the author's content. Full brand contract: `../AGENTS.md`. Usage: `README.md`.
 
-This **is** the `../../reveal_v4/` teaser lineage: the same fixed 1280×720 stage scaled to fit
+This **is** the teaser of the brand family: the same fixed 1280×720 stage scaled to fit
 (`fitStage()`), the same gold band, the same `.r-*` reveal primitives that `slides/` uses — **plus** the
 two things the talk deck deliberately dropped: a millisecond **timeline** and a synced **voiceover**,
 driven by an auto-play clock. So where `slides/` advances on keypress, the teaser plays itself.
 
-**Timeline-from-DOM (the one design improvement over reveal_v4).** reveal_v4 kept a hand-maintained
-`TIMELINE[]` array in the engine that had to stay in sync with the markup. Here the timeline **is** the
+**Timeline-from-DOM.** Rather than a hand-maintained `TIMELINE[]` array in the engine that has to stay in
+sync with the markup, here the timeline **is** the
 markup: every element with `data-at="<ms>"` is a cue; `teaser.js` scans them in document order, stable-
 sorts by time, and fires them on the clock. So re-timing or adding a beat is a **local edit to one
 `<section>`** — there is no central list to keep in sync, which is exactly the "edit one segment,
@@ -41,7 +41,7 @@ per `README.md`.
 - `teaser.css` — the teaser theme: brand tokens via `@import "../brand/colors.css"` + `tokens.css`, Inter
   `@font-face`, the `.bar` chrome (+ `hero`/`full`/`compact` band states), the **full** `.r-*` reveal set,
   the `.stat`/`.badge` screen components. Fixed px on the 720 stage (the stage scales as a unit).
-- `teaser.js` — the **engine** (dependency-free, adapted from `../../reveal_v4/js/deck.js`): `fitStage()`
+- `teaser.js` — the **engine** (dependency-free): `fitStage()`
   scaling + timeline-from-DOM + an rAF play clock + audio sync + keys + the band-state toggle. Auto-plays
   on load. Exposes `window.TEASER_MS` / `window.TEASER_DONE` so `record.mjs` knows when to stop.
 - `build.mjs` — the **copier + verifier** (see Build). Node built-ins only; **no Chromium**.
@@ -87,7 +87,7 @@ survives; every ref resolves). The live HTML/CSS/JS is the deliverable you open 
   never touch it.
 - **Band states** follow the active segment's `data-band`: `hero` hides the band (the Hook is a
   full-bleed gold hero that carries the lockup itself — no gold-on-gold seam); `full` is the default
-  84px band; `compact` shrinks it to a 56px watermark for later segments (reveal_v4's pattern). `--bar-h`
+  84px band; `compact` shrinks it to a 56px watermark for later segments. `--bar-h`
   drives both the bar height and the body offset, so the shrink reflows in one go.
 - **Gold (`--sdsu-yellow`) is reserved for the headline result** — the `.stat` cards — and the hook hero
   ground. Never the teaser accent.
@@ -119,7 +119,7 @@ survives; every ref resolves). The live HTML/CSS/JS is the deliverable you open 
 2. **No `npm install`.** `build.mjs` uses only node built-ins (no Chromium). `record.mjs` uses node
    built-ins and may shell out to the **on-box** ffmpeg + Chromium via `child_process` — those are
    runtime tools, never a repo dependency; no puppeteer/playwright library, no node_modules.
-3. **`../../reveal_v4/` is read-only** — study the seed, never modify it. Same for the other modules.
+3. **Don't modify sibling modules** — work only within `videos/`.
 4. **Edit only the segments between the markers;** copy-to-new-file; copy the `dist/` folder, don't
    hotlink.
 5. **Never hand-edit `dist/`** — it is generated; re-run `build.mjs` / `record.mjs`.
