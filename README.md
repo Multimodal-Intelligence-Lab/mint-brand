@@ -61,17 +61,8 @@ full steps; the one command that produces the artifact is shown here.
 </tr>
 </table>
 
-## The reference
-`../reveal_v4/` is the **MuSDeT teaser** — a finished, working deck. It is the *reference* this brand
-was extracted from (the logos, the colors, the SDSU │ MINT lockup) and the seed for `slides/` and
-`videos/`. It is not part of this repo and is never modified.
-
-## Principle
-`brand/` is minimal and dependency-free — plain files, no build step. Modules reference it by relative
-path (`../brand/…`); nothing duplicates a logo or hardcodes a color. Keep new modules the same way.
-
 ## For AI agents
-People will paste this README to an agent, so: the two prime directives are **`brand/` is the single
+The two prime directives are **`brand/` is the single
 source of truth** (reference `../brand/…`; never copy a logo or paste a hex) and **stay dependency-free
 at rest** (no `node_modules`, no CDN; build steps use on-box tools only). Before doing anything, read the
 full contract in **[`AGENTS.md`](AGENTS.md)** (the root rules) and the **`AGENTS.md`** in the folder you're
@@ -79,5 +70,20 @@ working in (the task-specific rules). Every folder has one. Don't reinvent the r
 follow the contract.
 
 ## Authors
-- [Mukhtiar Ali](https://github.com/GitAliGator)
-- [Harsh Dubey](https://github.com/hdubey-debug)
+
+<table>
+<tr>
+<td align="center" width="190">
+  <a href="https://github.com/GitAliGator">
+    <img src="https://github.com/GitAliGator.png" width="88" alt="Mukhtiar Ali"><br>
+    <img src="https://img.shields.io/badge/Mukhtiar%20Ali-478A2D?style=for-the-badge&logo=github&logoColor=white" alt="Mukhtiar Ali on GitHub">
+  </a>
+</td>
+<td align="center" width="190">
+  <a href="https://github.com/hdubey-debug">
+    <img src="https://github.com/hdubey-debug.png" width="88" alt="Harsh Dubey"><br>
+    <img src="https://img.shields.io/badge/Harsh%20Dubey-478A2D?style=for-the-badge&logo=github&logoColor=white" alt="Harsh Dubey on GitHub">
+  </a>
+</td>
+</tr>
+</table>
