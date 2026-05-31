@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="file:///mmfs1/scratch/jacks.local/hdubey/MINT-Lab/mint/readme-header/">
+<meta charset="utf-8">
+<title>MINT README header</title>
+<style>
+  @import "../brand/colors.css";
+  @font-face {
+    font-family: "Inter";
+    src: url("../brand/fonts/inter-variable-latin.woff2") format("woff2");
+    font-weight: 100 900; font-display: block;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  /* Same header as the deck (reveal_v4 .banner) and the poster band — a 16:1 strip so it matches
+     the poster exactly (poster header is 3024×189pt = 16:1). Gold band + SDSU|MINT lockup left +
+     title/authors/affiliation centered + QR right + blue corner triangle. Text uses the brand token
+     --sdsu-blue (the poster's choice), never raw hex. Don't edit the chrome below — edit only the
+     marked content in <body>. Re-render with: node build.mjs */
+  .banner {
+    width: 1280px; height: 80px;            /* 16:1 — matches the poster header exactly */
+    font-family: "Inter", -apple-system, sans-serif;
+    position: relative; overflow: hidden; background: var(--paper);
+  }
+  .art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .corner { position: absolute; top: 0; right: 0; width: 27px; height: 27px; z-index: 3; }   /* 0.34 × band-h, as the poster */
+  .lockup {
+    position: absolute; left: 22px; top: 50%; transform: translateY(-50%);
+    z-index: 2; display: flex; align-items: center; gap: 11px;
+  }
+  .lockup .sdsu { height: 64px; width: auto; display: block; }   /* ~84% of band, as the poster */
+  .lockup .mint { height: 58px; width: auto; display: block; }   /* ~90% of SDSU, as the poster */
+  .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
+  .center {
+    position: absolute; left: 24%; right: 15%; top: 50%; transform: translateY(-50%);
+    text-align: center; z-index: 2; color: var(--sdsu-blue);
+  }
+  .center .title   { font-size: 17px; font-weight: 800; line-height: 1.12; letter-spacing: 0.1px; margin: 0; }
+  .center .authors { font-size: 12.5px; font-weight: 700; margin: 3px 0 0; }
+  .center .affil   { font-size: 10px; font-weight: 600; opacity: 0.85; margin: 2px 0 0; white-space: nowrap; }
+  .qr { position: absolute; right: 34px; top: 50%; transform: translateY(-50%); height: 60px; width: auto; z-index: 2; }
+</style>
+</head>
+<body>
+<div class="banner">
+  <!-- brand chrome — do not edit -->
+  <img class="art" src="assets/header_back_yellow.png" alt="">
+  <img class="art" src="assets/header_over_yellow.png" alt="">
+  <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
+  </svg>
+  <div class="lockup">
+    <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+    <span class="sep"></span>
+    <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+  </div>
+
+  <!-- ↓↓↓ EDIT FOR YOUR PROJECT ↓↓↓ -->
+  <div class="center">
+    <p class="title"><b>MuSDeT</b>: Multi-Scale Encoding, Gated Fusion, and Temporal Context for Lightweight Wearable Stress Detection</p>
+    <p class="authors">Mukhtiar Ali, Chulwoo Pack</p>
+    <p class="affil">South Dakota State University &middot; Dept. of Electrical Engineering &amp; Computer Science &middot; Multimodal Intelligence Lab</p>
+  </div>
+  <!-- QR → the lab GitHub org by default; swap for your project QR or delete the line to drop it -->
+  <img class="qr" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">
+  <!-- ↑↑↑ EDIT FOR YOUR PROJECT ↑↑↑ -->
+</div>
+</body>
+</html>

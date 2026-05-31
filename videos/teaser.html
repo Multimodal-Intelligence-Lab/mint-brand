@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teaser — MINT</title>
+<meta name="description" content="A branded auto-playing teaser. Multimodal Intelligence Lab, South Dakota State University.">
+<link rel="stylesheet" href="teaser.css">
+</head>
+<body>
+
+<div id="stage">
+
+  <!-- ════════════════════════ BRAND CHROME — do not edit ════════════════════════
+       The gold band is the standardized lab identity — the same header as the deck / poster /
+       demo-page. teaser.js fills the center with the active segment's data-title and the right with a
+       live timecode. It hides on the hook hero (data-band="hero") and shrinks to a watermark on later
+       segments (data-band="compact"). Add class="accent-green" to #stage above for the green voice. -->
+  <header class="bar">
+    <div class="lockup">
+      <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+      <span class="sep"></span>
+      <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+    </div>
+    <div class="bar-title"></div>
+    <div class="clock">0:00</div>
+  </header>
+
+  <main class="stage-body">
+  <!-- ↓↓↓ EDIT FOR YOUR TEASER ↓↓↓  — one <section class="seg"> per beat, in the order they play.
+       This is a TIMELINE, not a pile of slides: each segment and each cue inside it carries data-at="<ms>"
+       (its time from t=0). teaser.js scans these in document order and plays them on a clock — there is NO
+       central timeline list to keep in sync. To re-time a beat, change its data-at. To add a beat, drop in
+       a <section class="seg"> with its own data-at. Each segment is self-contained: edit one without
+       reading the others (search its data-seg). Set the reveal motion with a class: r-up / r-fade / r-wipe
+       / r-pop. data-title shows in the band; data-band picks the band state (hero | full | compact).
+       Times below make a ~32s skeleton — retune them to your voiceover (see <audio> at the bottom). -->
+
+    <!-- ── Hook — full-bleed gold hero; the band is hidden, so this carries the lockup itself ── -->
+    <section class="seg seg--hook" data-seg="hook" data-band="hero" data-title="" data-at="0">
+      <div class="hero-lockup">
+        <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+        <span class="sep"></span>
+        <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+      </div>
+      <h1 data-at="600" class="r-up"><b>Your Project</b>: the one-line claim</h1>
+      <p class="hook-line r-fade" data-at="2800">The problem you solve, in a single punchy sentence.</p>
+      <p class="venue" data-at="5000">Venue / Conference &middot; Month 20XX</p>
+    </section>
+
+    <!-- ── Approach — the method in a line, then the contributions pop in one by one ── -->
+    <section class="seg seg--approach" data-seg="approach" data-band="full" data-title="Approach" data-at="8000">
+      <h2>Approach</h2>
+      <p>One sentence framing the method; then the key contributions appear on cue.</p>
+      <div class="badges">
+        <div class="badge r-up" data-at="9500"><span class="n">1</span><div><strong>Contribution one</strong>what it is, in a few words.</div></div>
+        <div class="badge r-up" data-at="11500"><span class="n">2</span><div><strong>Contribution two</strong>what it is, in a few words.</div></div>
+        <div class="badge r-up" data-at="13500"><span class="n">3</span><div><strong>Contribution three</strong>what it is, in a few words.</div></div>
+      </div>
+    </section>
+
+    <!-- ── Results — gold stat cards pop in (gold is reserved for the headline result) ── -->
+    <section class="seg seg--results" data-seg="results" data-band="compact" data-title="Results" data-at="17000">
+      <h2>Results</h2>
+      <div class="stats">
+        <div class="stat r-pop" data-at="18500"><div class="big">00.0<span class="unit">%</span></div><div class="lab">your headline metric <span>(what it measures)</span></div></div>
+        <div class="stat r-pop" data-at="20000"><div class="big">0.0<span class="unit">M</span></div><div class="lab">a second number <span>(e.g. parameters)</span></div></div>
+        <div class="stat r-pop" data-at="21500"><div class="big">N</div><div class="lab">a third number <span>(e.g. datasets)</span></div></div>
+      </div>
+    </section>
+
+    <!-- ── Close — the takeaway + lockup + QR (the audience photographs this last frame) ── -->
+    <section class="seg seg--close" data-seg="close" data-band="compact" data-title="Takeaway" data-at="25000">
+      <p class="tagline r-up" data-at="26000">The one thing to <em>remember</em>.</p>
+      <div class="end-lockup r-fade" data-at="27500">
+        <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+        <span class="sep"></span>
+        <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+      </div>
+      <!-- QR → the lab GitHub org by default; swap for your project/paper QR. -->
+      <img class="qr r-pop" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab" data-at="28500">
+      <p class="links" data-at="29500">github.com/Multimodal-Intelligence-Lab &middot; your.email@sdstate.edu</p>
+    </section>
+
+  <!-- ↑↑↑ EDIT FOR YOUR TEASER ↑↑↑ -->
+  </main>
+</div>
+
+<!-- Keyboard hint — chrome; teaser.js fades it after a few seconds. -->
+<div class="hint">Space play/pause &middot; R restart &middot; &larr;/&rarr; step &middot; F fullscreen</div>
+
+<!-- Voiceover (OPTIONAL). The teaser auto-plays on the timeline with NO audio by default. To narrate:
+     record a voiceover, drop the file in this folder, point src at it, and retune each data-at above to
+     your words. The engine syncs the audio to the clock when a src is present. -->
+<audio id="vo" preload="auto"><!-- <source src="voiceover.m4a" type="audio/mp4"> --></audio>
+
+<script src="teaser.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Generated build output — rebuilt on demand via each module's build.mjs / record.mjs.
+# Node built-ins only; nothing is installed, so there is no node_modules at rest.
+dist/
+
+# …except these two dist snapshots, committed on purpose as rendered references:
+!posters/dist/
+!posters/dist/**
+!readme-header/dist/
+!readme-header/dist/**
+
+node_modules/
+.DS_Store

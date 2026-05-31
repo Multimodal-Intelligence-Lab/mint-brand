@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talk Title — Slides</title>
+<meta name="description" content="Conference talk slides. Multimodal Intelligence Lab, South Dakota State University.">
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ════════════════════════ BRAND CHROME — do not edit ════════════════════════
+       The gold band is the standardized lab identity — the same header as the poster / demo-page /
+       readme-header. deck.js fills the center with the current slide's data-title and the page number.
+       Add class="accent-green" to #deck above for the green deck voice. -->
+  <header class="bar">
+    <div class="lockup">
+      <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+      <span class="sep"></span>
+      <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+    </div>
+    <div class="bar-title"></div>
+    <div class="page"><span class="cur">1</span><span>&nbsp;/&nbsp;</span><span class="total">1</span></div>
+  </header>
+
+  <main class="slides">
+  <!-- ↓↓↓ EDIT FOR YOUR TALK ↓↓↓  — one <section class="slide"> per slide; data-title shows in the band.
+       Each slide is self-contained: to edit/add/reorder one, work on its <section> only (you don't need to
+       read the others — search for its data-title and edit just that block). -->
+
+    <!-- ── Title — full-bleed gold hero (the band is hidden on slide 1, so this carries the lockup) ── -->
+    <section class="slide slide--title" data-title="">
+      <div class="hero-lockup">
+        <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+        <span class="sep"></span>
+        <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+      </div>
+      <h1><b>Your Talk Title</b>: A Short, Descriptive Subtitle</h1>
+      <p class="authors">First Author &middot; Second Author &middot; Third Author</p>
+      <p class="affil">South Dakota State University &middot; Dept. of Electrical Engineering &amp; Computer Science &middot; Multimodal Intelligence Lab</p>
+      <p class="venue">Venue / Conference &middot; Month 20XX</p>
+    </section>
+
+    <!-- ── Outline ───────────────────────────────────────────────────────────────────────── -->
+    <section class="slide" data-title="Outline">
+      <h2>Outline</h2>
+      <ul>
+        <li>Motivation &mdash; the problem and why it matters</li>
+        <li>Approach &mdash; your method in one line</li>
+        <li>Results &mdash; the headline numbers</li>
+        <li>Takeaways</li>
+      </ul>
+    </section>
+
+    <!-- ── Content (bullets reveal one-by-one via data-frag — delete data-frag for all-at-once) ── -->
+    <section class="slide" data-title="Approach">
+      <h2>Approach</h2>
+      <p>One or two sentences framing the method, then the key points appear as you advance.</p>
+      <ul>
+        <li data-frag class="r-up"><strong>Contribution one</strong> &mdash; what it is and why it matters.</li>
+        <li data-frag class="r-up"><strong>Contribution two</strong> &mdash; what it is and why it matters.</li>
+        <li data-frag class="r-up"><strong>Contribution three</strong> &mdash; what it is and why it matters.</li>
+      </ul>
+    </section>
+
+    <!-- ── Figure ────────────────────────────────────────────────────────────────────────── -->
+    <section class="slide" data-title="Architecture">
+      <h2>Architecture</h2>
+      <figure class="figure">
+        <!-- Swap the placeholder for your figure: <img src="assets/architecture.svg" alt="Architecture"> -->
+        <div class="ph">Drop <code>architecture.svg</code> in assets/ and swap this placeholder</div>
+        <figcaption>Overview of your method (replace with your own figure).</figcaption>
+      </figure>
+    </section>
+
+    <!-- ── Results (gold .stat cards — gold is reserved for the headline result) ─────────────── -->
+    <section class="slide" data-title="Results">
+      <h2>Results</h2>
+      <div class="stats">
+        <div class="stat"><div class="big">00.0<span class="unit">%</span></div><div class="lab">your headline metric <span>(what it measures)</span></div></div>
+        <div class="stat"><div class="big">0.0<span class="unit">M</span></div><div class="lab">a second number <span>(e.g. parameters)</span></div></div>
+        <div class="stat"><div class="big">N</div><div class="lab">a third number <span>(e.g. datasets)</span></div></div>
+      </div>
+    </section>
+
+    <!-- ── Closing — thank-you + QR (the audience photographs this slide) ────────────────────── -->
+    <section class="slide slide--closing" data-title="Thank you">
+      <h2>Thank you</h2>
+      <div class="end-lockup">
+        <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+        <span class="sep"></span>
+        <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+      </div>
+      <!-- QR → the lab GitHub org by default; swap for your project/paper QR. -->
+      <img class="qr" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">
+      <p class="links">github.com/Multimodal-Intelligence-Lab &middot; your.email@sdstate.edu</p>
+    </section>
+
+  <!-- ↑↑↑ EDIT FOR YOUR TALK ↑↑↑ -->
+  </main>
+</div>
+
+<!-- Keyboard hint — chrome; deck.js fades it after a few seconds. -->
+<div class="hint">&rarr; / Space &middot; &larr; back &middot; F fullscreen</div>
+
+<script src="deck.js"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+/* MINT videos — the stylesheet for a branded, auto-playing teaser.
+   Identity: the SAME brand as the slide deck / poster / demo-page — gold band + SDSU | MINT lockup +
+   the brand blue — on the SAME fixed 1280×720 stage that teaser.js scales to fit (the reveal_v4 model).
+   The teaser is the timed sibling of slides/: it re-adds the two things the talk deck dropped — a
+   millisecond TIMELINE (here derived from per-cue data-at) and a synced voiceover — driven by an
+   auto-play clock. So this mirrors slides/deck.css, plus the full reveal_v4 motion set and the band
+   "compact watermark" state a teaser uses. Sizes are fixed px against the 720-tall stage (it scales as
+   one unit).
+
+   Brand primaries are single-sourced from ../brand/colors.css (never paste raw hex). The few values
+   declared locally below are NEUTRAL screen affordances with no brand equivalent (the dark backdrop the
+   stage floats on, a shadow) — the same discipline as slides/deck.css and demo-pages.
+
+   ACCENT: links, the heading rule, badges and stat qualifiers are driven by one --accent variable, so a
+   teaser swaps blue<->green in one line (class="accent-green" on #stage). The gold band chrome stays on
+   --sdsu-blue in BOTH accents — that fixed gold band IS the "same header as the poster/deck" identity.
+   Gold (--sdsu-yellow) is reserved for the headline .stat and the hero ground. */
+
+@import "../brand/colors.css";
+@import "../brand/tokens.css";
+
+@font-face {
+  font-family: "Inter";
+  src: url("../brand/fonts/inter-variable-latin.woff2") format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../brand/fonts/inter-variable-latin-italic.woff2") format("woff2");
+  font-weight: 100 900; font-style: italic; font-display: swap;
+}
+
+:root {
+  /* ── Screen NEUTRALS (not brand colors) — declared locally, same discipline as slides/deck.css ── */
+  --backdrop:  #0c1222;                       /* the dark surround the scaled stage floats on   */
+  --surface:   #f6f7f9;                       /* faint panel — code/figure grounds              */
+  --shadow:    0 0 80px rgba(0, 0, 0, 0.45);  /* the stage lift off the backdrop                */
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  /* ── Stage geometry (fixed — the whole stage scales as a unit) ── */
+  --stage-w: 1280px;
+  --stage-h: 720px;
+  --pad:     64px;                            /* segment body inset                             */
+
+  /* ── Type scale, stepped off the brand --type-ratio (fixed px on the 720 stage) ── */
+  --fs-base: 26px;
+  --fs-sm:   calc(var(--fs-base) / var(--type-ratio));
+  --fs-lg:   calc(var(--fs-base) * var(--type-ratio));
+  --fs-h2:   calc(var(--fs-base) * var(--type-ratio) * var(--type-ratio) * var(--type-ratio));  /* heading */
+  --fs-title: 60px;                           /* the teaser headline on the hook hero            */
+  --fs-stat: 76px;                            /* the headline result number                     */
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--backdrop); }
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+
+/* ============================================================================================
+   THE STAGE — fixed 1280×720, scaled to the viewport by teaser.js (transform set inline). One
+   segment is shown at a time. The stage scales as a single unit, so everything inside is fixed px.
+   The band height is a variable so the compact state shrinks the bar AND reflows the body in one go.
+   ============================================================================================ */
+#stage {
+  position: absolute; top: 0; left: 0;
+  width: var(--stage-w); height: var(--stage-h);
+  transform-origin: top left;                 /* teaser.js sets translate()+scale() to center & fit  */
+  background: var(--paper); overflow: hidden;
+  box-shadow: var(--shadow);
+  color: var(--ink); font-size: var(--fs-base); line-height: 1.45;
+  --accent:  var(--sdsu-blue);                /* default teaser voice — blue (continuity with the band) */
+  --bar-h:   84px;                            /* full band height (compact state overrides below)       */
+}
+#stage.accent-green { --accent: var(--mint-green-deep); }   /* the one-line green swap */
+
+/* ── The persistent gold band (chrome — locked) ─────────────────────────────────────────────
+   The "same gold header as the poster/deck": SDSU|MINT lockup (left), the active segment's short
+   title (center, filled by teaser.js), a small live timecode (right). Band text is --sdsu-blue in
+   both accents. The two MuSDeT band PNGs sit behind as a cover layer. The bar height transitions so
+   the compact-watermark shrink animates. */
+.bar {
+  position: absolute; top: 0; left: 0; right: 0; height: var(--bar-h); z-index: 10;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px;
+  padding: 0 var(--pad);
+  background:
+    url("assets/header_over_yellow.png") center / cover no-repeat,
+    url("assets/header_back_yellow.png") center / cover no-repeat,
+    var(--sdsu-yellow);
+  color: var(--sdsu-blue);
+  box-shadow: var(--shadow-sm);
+  transition: height 0.5s ease-in-out;
+}
+.bar .lockup { display: flex; align-items: center; gap: 14px; }
+.bar .lockup .sdsu { height: calc(var(--bar-h) * 0.72); width: auto; transition: height 0.5s ease-in-out; }
+.bar .lockup .mint { height: calc(var(--bar-h) * 0.66); width: auto; transition: height 0.5s ease-in-out; }
+/* Full-height divider — align-self:stretch spans the lockup (reveal_v4's pattern); no margin (a margin
+   here truncated the line to a stub). */
+.bar .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
+.bar .bar-title { text-align: center; font-size: var(--fs-sm); font-weight: 800; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .clock { font-size: var(--fs-sm); font-weight: 700; font-variant-numeric: tabular-nums; opacity: 0.9; }
+
+/* ── Band states (driven by the active segment's data-band, set by teaser.js on #stage) ──────────
+   hero    — the band is hidden (the hook hero is full-bleed gold and carries the lockup itself, so
+             there's no gold-on-gold seam); the body reclaims the band's height.
+   full    — the default 84px band.
+   compact — the watermark: a short 56px band with smaller logos and no timecode (reveal_v4's later-
+             segment shrink). --bar-h drives both the bar height and the body's top offset. */
+#stage.band-hero    .bar { display: none; }
+#stage.band-hero    .stage-body { top: 0; }
+#stage.band-compact { --bar-h: 56px; }
+#stage.band-compact .bar .clock { opacity: 0; }
+
+/* ── Segments ──────────────────────────────────────────────────────────────────────────────
+   One .seg shown at a time (teaser.js toggles .active). The body sits below the band; in the hero
+   state it fills the whole stage. */
+.stage-body { position: absolute; top: var(--bar-h); left: 0; right: 0; bottom: 0;
+  transition: top 0.5s ease-in-out; }
+.seg {
+  position: absolute; inset: 0; display: none;
+  flex-direction: column; justify-content: center;
+  padding: var(--pad);
+}
+.seg.active { display: flex; }
+.seg > * { margin: 0; }
+.seg > * + * { margin-top: 0.7em; }
+
+/* Segment heading + the accent rule under it (the teaser translation of the poster section bar) */
+.seg h2 { font-size: var(--fs-h2); font-weight: 800; line-height: 1.1; }
+.seg h2::after {
+  content: ""; display: block; width: 56px; height: 4px; border-radius: 2px;
+  background: var(--accent); margin-top: 14px;
+}
+.seg p { max-width: 60ch; }
+.seg a { color: var(--accent); }
+.seg ul { margin: 0; padding-left: 1.2em; }
+.seg ul li { margin: 0.5em 0; }
+.seg ul li::marker { color: var(--accent); }
+
+/* ── Hook — the full-bleed gold hero (flat --sdsu-yellow ground; the band is hidden while it shows,
+      so the hero carries the SDSU|MINT lockup itself, like slides' title slide). ───────────────── */
+.seg--hook {
+  justify-content: center; align-items: center; text-align: center;
+  background: var(--sdsu-yellow); color: var(--sdsu-blue);
+  padding: var(--pad) calc(var(--pad) * 1.5);
+}
+.seg--hook .hero-lockup { display: flex; align-items: center; gap: 18px; }
+.seg--hook .hero-lockup .sdsu { height: 76px; width: auto; }
+.seg--hook .hero-lockup .mint { height: 70px; width: auto; }
+.seg--hook .hero-lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
+.seg--hook h1 { font-size: var(--fs-title); font-weight: 900; line-height: 1.08; letter-spacing: 0.2px; max-width: 22ch; }
+.seg--hook h1 b { color: var(--sdsu-blue); }
+.seg--hook .hook-line { font-size: var(--fs-lg); font-weight: 700; max-width: 40ch; }
+.seg--hook .venue { font-size: var(--fs-sm); font-weight: 700; opacity: 0.95; }
+
+/* ── Contribution badges (screen-unit, mirrors slides/.badge) ────────────────────────────────── */
+.badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
+.badge {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--paper); border: 2px solid var(--border); border-radius: 14px;
+  padding: 20px 22px; box-shadow: var(--shadow-sm);
+}
+.badge .n {
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--accent); color: var(--paper);
+  display: grid; place-items: center; font-weight: 800; font-size: var(--fs-sm);
+}
+.badge .n + div { font-size: var(--fs-sm); line-height: 1.35; }
+.badge strong { display: block; margin-bottom: 4px; }
+
+/* ── Results — gold hero stat cards (gold reserved for the headline result) ───────────────────── */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; }
+.stat {
+  background: var(--paper); border: 3px solid var(--sdsu-yellow); border-radius: 16px;
+  padding: 32px 20px; text-align: center; box-shadow: var(--shadow-sm);
+}
+.stat .big { font-size: var(--fs-stat); font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .unit { font-size: 0.5em; font-weight: 800; }
+.stat .lab { font-size: var(--fs-sm); font-weight: 700; margin-top: 14px; }
+.stat .lab span { color: var(--accent); }
+
+/* ── Close — takeaway tagline + lockup + QR (the audience photographs the last frame) ─────────── */
+.seg--close { align-items: center; text-align: center; }
+.seg--close .tagline { font-size: var(--fs-title); font-weight: 900; line-height: 1.12; max-width: 24ch; }
+.seg--close .tagline em { font-style: normal; color: var(--mint-green-deep); }
+.seg--close .end-lockup { display: flex; align-items: center; gap: 18px; margin-top: 0.6em; }
+.seg--close .end-lockup .sdsu { height: 56px; }
+.seg--close .end-lockup .mint { height: 50px; }
+.seg--close .end-lockup .sep  { width: 2px; height: 52px; background: var(--border); }
+.seg--close .qr { height: 170px; width: auto; margin-top: 0.4em; }
+.seg--close .links { font-size: var(--fs-sm); font-weight: 700; }
+
+/* ── Reveal primitives — the FULL reveal_v4 set (a teaser uses more motion than a talk deck).
+      A cue element starts hidden and gets .is-in when its data-at time fires. Honors reduced-motion. ── */
+.r-fade { opacity: 0; transition: opacity 0.55s ease; }
+.r-up   { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.r-wipe { clip-path: inset(0 100% 0 0); transition: clip-path 0.6s ease; }
+.r-pop  { opacity: 0; transform: scale(0.6); transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.2, 1.5, 0.4, 1); }
+.is-in.r-fade { opacity: 1; }
+.is-in.r-up   { opacity: 1; transform: none; }
+.is-in.r-wipe { clip-path: inset(0 0 0 0); }
+.is-in.r-pop  { opacity: 1; transform: none; }
+/* A cue with no explicit r-* primitive still defaults to a fade so it doesn't pop in unstyled. The
+   .is-in rule repeats the full :not() chain so it OUT-specifies the hidden rule (else the hidden
+   opacity:0 wins on specificity and the cue never reveals). */
+[data-at]:not(.seg):not(.r-fade):not(.r-up):not(.r-wipe):not(.r-pop) { opacity: 0; transition: opacity 0.55s ease; }
+[data-at]:not(.seg):not(.r-fade):not(.r-up):not(.r-wipe):not(.r-pop).is-in { opacity: 1; }
+
+/* Instant rebuild on step-back / reset: kill all motion so it snaps. */
+#stage.noanim, #stage.noanim * { transition: none !important; animation: none !important; }
+
+/* ── Keyboard hint (auto-fades after a moment; chrome) ── */
+.hint {
+  position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+  font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: var(--paper); opacity: 0.5;
+  background: rgba(0, 0, 0, 0.35); padding: 6px 14px; border-radius: 999px;   /* neutral scrim, like a shadow */
+  transition: opacity 0.6s ease; pointer-events: none; z-index: 30;
+}
+.hint.gone { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .r-fade, .r-up, .r-wipe, .r-pop, .bar, .bar .lockup img, .stage-body { transition: none; }
+}

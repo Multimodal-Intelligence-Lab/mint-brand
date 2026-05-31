@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="file:///mmfs1/scratch/jacks.local/hdubey/MINT-Lab/mint/posters/examples/">
+  <meta charset="utf-8">
+  <!-- Worked example + regression check: a faithful HTML rebuild of the LaTeX MuSDeT poster
+       (../../cvpr-poster-template/musdet-cvpr-poster.pdf). Render at its native 42×21 with:
+         node ../build.mjs examples/musdet.html 42x21
+       Compare dist/musdet-42x21.pdf against the original — same header, sections, colors, 3-col
+       feel (faithful, not pixel-identical: reflowable columns vs the original's absolute TikZ).
+       FIGURES: ablation_bars + context_sweep are now BRAND-STYLED (Inter + brand palette) via the
+       MINT chart system (../figures/ + plots/plot_*.py) — same data & layout, font/colour-source
+       changed. seed_robustness is also brand-styled but from ILLUSTRATIVE synthetic per-seed data
+       (the original results file is gone; MuSDeT's WESAD mean is anchored to the published 66.9% —
+       see plots/plot_seed_robustness.py, swap real data into SEED_ACCS). The TikZ architecture
+       stays as-is (re-fonting needs LaTeX). The LaTeX PDF remains the comparison reference. -->
+  <title>MuSDeT — MINT poster example</title>
+  <link rel="stylesheet" href="../poster.css">
+  <style>
+    @page { size: 42in 21in; margin: 0; }
+    :root { --cols: 3; --page-w: 42in; --page-h: 21in; }
+  </style>
+</head>
+<body>
+  <div class="poster">
+
+    <header class="band">
+      <img class="art" src="../assets/header_back_yellow.png" alt="">
+      <img class="art" src="../assets/header_over_yellow.png" alt="">
+      <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
+      </svg>
+
+      <div class="logos">
+        <img class="logo-sdsu" src="../../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+        <span class="rule"></span>
+        <img class="logo-mint" src="../../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+      </div>
+
+      <div class="title-block">
+        <h1 class="title"><span class="model">MuSDeT</span>: Multi-Scale Encoding, Gated Fusion, and
+          Temporal Context for Lightweight Wearable Stress Detection</h1>
+        <p class="authors">Mukhtiar Ali, Chulwoo Pack</p>
+        <p class="affil">South Dakota State University, Dept.&nbsp;of Electrical Engineering &amp; Computer
+          Science, <span class="green">M</span>ultimodal <span class="green">Int</span>elligence Lab
+          <!-- mint M+leaf accent mark — canonical artwork: ../../brand/icons/leaf.svg (inlined here so
+               the --mint-green token applies; an <img> SVG can't inherit a CSS var in print). -->
+          <svg class="leaf" viewBox="0 0 576 512" aria-hidden="true" style="height:0.95em;width:1.05em;vertical-align:-0.14em"><path style="fill:var(--mint-green)" d="M546.2 9.7c-5.6-12.5-21.6-13-28.3-1.2C486.9 62.4 431.4 96 368 96h-80C182 96 96 182 96 288c0 7 .8 13.7 1.5 20.5C161.3 262.8 253.4 224 384 224c8.8 0 16 7.2 16 16s-7.2 16-16 16C132.6 256 26 410.1 2.4 468c-6.6 16.3 1.2 34.9 17.5 41.6 16.4 6.8 35-1.1 41.8-17.3 1.5-3.6 20.9-47.9 71.9-90.6 32.4 43.9 94 85.8 174.9 77.2C465 467.5 576 326.7 576 144c0-44.5-13.9-93.4-29.8-134.3z"/></svg>
+        </p>
+      </div>
+
+      <div class="marks">
+        <img class="qr" src="assets/qr-mokhtiarali.png" alt="Author QR — mokhtiarali.github.io">
+        <img class="conf" src="assets/cvpr-denver-2026.png" alt="CVPR 2026">
+      </div>
+    </header>
+
+    <main class="body">
+
+      <!-- ── COLUMN 1: MOTIVATION ──────────────────────────────────────────────────────── -->
+      <section class="section break-after">
+        <div class="bar">Motivation</div>
+        <div class="panel">
+          <ul>
+            <li><strong>Physiological patterns span multiple time scales.</strong> Heart rate changes
+              rapidly; EDA and temperature drift slowly. Single-kernel CNNs capture one scale, not both
+              &rarr; <strong>M1</strong>: multi-scale CNN encoder.</li>
+            <li><strong>Sensors vary in informativeness.</strong> EDA tracks arousal; ECG is sensitive to
+              motion artifacts; sampling rates vary by 175&times; across sensors. Equal-weight fusion
+              ignores this &rarr; <strong>M2</strong>: learned modality gates.</li>
+            <li><strong>Stress evolves over time.</strong> Stress develops gradually and persists, but
+              window-level models classify 1-second snapshots in isolation &rarr; <strong>M3</strong>:
+              causal temporal context over <em>K</em>=30 past windows.</li>
+          </ul>
+
+          <!-- Stress-response timeline (inline SVG schematic — shows two windows that are
+               indistinguishable in isolation despite different stress states). -->
+          <figure class="fig">
+            <svg viewBox="0 0 400 250" style="width:100%;height:auto" role="img"
+                 aria-label="Stress response timeline: two windows at the same heart rate">
+              <!-- shaded stress region -->
+              <path d="M120 210 C150 210 165 70 200 60 C235 70 250 210 280 210 Z"
+                    style="fill:var(--ref-musdet-m3);opacity:0.10"/>
+              <!-- axes -->
+              <line x1="40" y1="210" x2="384" y2="210" style="stroke:var(--poster-ink);stroke-width:2"/>
+              <line x1="40" y1="210" x2="40" y2="30" style="stroke:var(--poster-ink);stroke-width:2"/>
+              <!-- x ticks 0..10 -->
+              <g style="stroke:var(--poster-ink);stroke-width:1">
+                <line x1="40"  y1="210" x2="40"  y2="216"/><line x1="108" y1="210" x2="108" y2="216"/>
+                <line x1="176" y1="210" x2="176" y2="216"/><line x1="244" y1="210" x2="244" y2="216"/>
+                <line x1="312" y1="210" x2="312" y2="216"/><line x1="380" y1="210" x2="380" y2="216"/>
+              </g>
+              <g style="fill:var(--poster-ink);font-size:11px" text-anchor="middle">
+                <text x="40" y="228">0</text><text x="108" y="228">2</text><text x="176" y="228">4</text>
+                <text x="244" y="228">6</text><text x="312" y="228">8</text><text x="380" y="228">10</text>
+              </g>
+              <!-- phase boundaries -->
+              <line x1="120" y1="40" x2="120" y2="210" style="stroke:var(--poster-ink);stroke-width:1.2;opacity:0.4;stroke-dasharray:4 4"/>
+              <line x1="280" y1="40" x2="280" y2="210" style="stroke:var(--poster-ink);stroke-width:1.2;opacity:0.4;stroke-dasharray:4 4"/>
+              <!-- phase labels -->
+              <g style="font-size:13px;font-weight:700" text-anchor="middle">
+                <text x="80"  y="50" style="fill:var(--poster-ink)">Baseline</text>
+                <text x="200" y="50" style="fill:var(--ref-musdet-m3)">Stress</text>
+                <text x="332" y="50" style="fill:var(--poster-ink)">Recovery</text>
+              </g>
+              <!-- response curve -->
+              <path d="M40 185 L120 185 C150 185 165 70 200 60 C235 70 250 185 280 185 L384 185"
+                    style="fill:none;stroke:var(--ref-musdet-m3);stroke-width:3;stroke-linecap:round;stroke-linejoin:round"/>
+              <!-- two ambiguous windows at the same HR level -->
+              <line x1="170" y1="128" x2="250" y2="128" style="stroke:var(--poster-ink);stroke-width:1.4;opacity:0.55;stroke-dasharray:5 4"/>
+              <rect x="150" y="112" width="22" height="32" rx="3" style="fill:var(--poster-ink);fill-opacity:0.08;stroke:var(--poster-ink);stroke-width:2.2"/>
+              <rect x="248" y="112" width="22" height="32" rx="3" style="fill:var(--poster-ink);fill-opacity:0.08;stroke:var(--poster-ink);stroke-width:2.2"/>
+              <rect x="184" y="120" width="52" height="16" style="fill:var(--paper)"/>
+              <text x="210" y="132" text-anchor="middle" style="fill:var(--poster-ink);font-size:11px;font-weight:700">Same HR</text>
+              <g style="fill:var(--poster-ink);font-size:11px;font-weight:700" text-anchor="middle">
+                <text x="161" y="162">Onset</text><text x="259" y="162">Recovery</text>
+              </g>
+              <text x="212" y="246" text-anchor="middle" style="fill:var(--poster-ink);font-size:12px">Time (minutes)</text>
+              <text x="20" y="120" text-anchor="middle" transform="rotate(-90 20 120)" style="fill:var(--poster-ink);font-size:12px">Heart Rate</text>
+            </svg>
+            <figcaption class="caption">A model sees the onset and recovery windows as identical (same
+              HR) &mdash; only temporal context (M3) disambiguates them.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ── COLUMN 2: ARCHITECTURE + RESULTS ──────────────────────────────────────────── -->
+      <section class="section">
+        <div class="bar">Architecture</div>
+        <div class="panel">
+          <figure class="fig">
+            <img src="assets/architecture-cvpr-poster.svg" alt="MuSDeT architecture">
+            <figcaption class="caption">Lightweight &amp; causal: 338K params &middot; <em>K</em>=30 past
+              windows &middot; no future context.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section break-after">
+        <div class="bar">Results</div>
+        <div class="panel">
+          <p class="takeaway">MuSDeT reaches 66.9% LOSO on WESAD &mdash; the worst seed stays above all baselines.</p>
+          <p class="protocol">Protocol: leave-one-subject-out, zero/near-zero window overlap, 5 seeds.</p>
+          <figure class="fig">
+            <img src="assets/seed_robustness.svg" alt="Per-seed LOSO accuracy vs baselines">
+          </figure>
+        </div>
+      </section>
+
+      <!-- ── COLUMN 3: ABLATION & SCALING ──────────────────────────────────────────────── -->
+      <section class="section">
+        <div class="bar">Ablation &amp; Scaling</div>
+        <div class="panel">
+          <figure class="fig">
+            <img src="assets/ablation_bars.svg" alt="Ablation: removing each module">
+            <figcaption class="caption"><strong>&minus;M1 Encoder</strong>: single-kernel CNN &nbsp;
+              <strong>&minus;M2 Gates</strong>: equal weights &nbsp;
+              <strong>&minus;M3 Temporal</strong>: <em>K</em>=1.</figcaption>
+          </figure>
+          <figure class="fig">
+            <img src="assets/context_sweep.svg" alt="Accuracy vs temporal context length K">
+            <figcaption class="caption">Accuracy rises with temporal context length <em>K</em>, then plateaus.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>

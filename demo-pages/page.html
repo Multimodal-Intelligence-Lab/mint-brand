@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper Title — Project Page</title>
+<meta name="description" content="One-sentence description of your paper. Multimodal Intelligence Lab, South Dakota State University.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════════════════════ BRAND CHROME — do not edit ════════════════════════
+     This is the STANDARDIZED part of the template: the gold band (here) and the footer (bottom) are
+     the locked lab identity — the same header as the deck / poster / readme-header. The paper title
+     lives IN the gold band (deck/poster style). The band, the SDSU|MINT lockup, the gold art and the
+     blue corner triangle are shared brand chrome; the band pins to the top on scroll (desktop).
+     Edit only the content between the ↓↓↓ / ↑↑↑ EDIT markers — everything else is the brand. -->
+<header class="gold band-head">
+  <img class="art" src="assets/header_back_yellow.png" alt="">
+  <img class="art" src="assets/header_over_yellow.png" alt="">
+  <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
+  </svg>
+
+  <div class="lockup">
+    <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+    <span class="sep"></span>
+    <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+  </div>
+
+  <!-- ↓↓↓ EDIT FOR YOUR PROJECT ↓↓↓ -->
+  <div class="band-center">
+    <h1 class="band-title"><b>Your Paper Title</b>: A Short, Descriptive Subtitle</h1>
+    <p class="band-authors">First Author, Second Author, Third Author</p>
+    <p class="band-affil">South Dakota State University &middot; Dept. of Electrical Engineering &amp; Computer Science &middot; Multimodal Intelligence Lab</p>
+  </div>
+  <!-- QR → the lab GitHub org by default; swap for your project QR or delete the line to drop it. -->
+  <img class="qr" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">
+</header>
+
+<!-- Action buttons — edit the hrefs; add/remove buttons (Video, Data, Demo, …) as needed. -->
+<nav class="band-actions" aria-label="Project links">
+  <a class="btn" href="#" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+    Paper
+  </a>
+  <a class="btn" href="#" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+    arXiv
+  </a>
+  <a class="btn" href="#" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    Code
+  </a>
+</nav>
+
+<main>
+  <!-- ── Abstract ─────────────────────────────────────────────────────────────────────────── -->
+  <section class="section section--tint" id="abstract">
+    <div class="wrap">
+      <h2>Abstract</h2>
+      <div class="prose abstract">
+        <p>Write your abstract here. State the problem, your approach, and the headline result in a few
+        sentences &mdash; the same paragraph you would put at the top of the paper. Use
+        <span class="num">a highlighted number</span> for a key figure if it helps. Keep it to one
+        short paragraph; the sections below carry the detail.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Method / Approach (free-form — fill with your figures and text) ──────────────────── -->
+  <section class="section" id="method">
+    <div class="wrap">
+      <h2>Approach</h2>
+      <div class="prose">
+        <p>Describe your method in a sentence or two, then list your key contributions as the badges
+        below. Add as many <code>.badge</code> blocks as you need, or delete the set if it doesn't fit
+        your paper.</p>
+      </div>
+      <div class="badges">
+        <div class="badge"><span class="n">1</span><div><strong>Contribution one</strong>One sentence on what it is and why it matters.</div></div>
+        <div class="badge"><span class="n">2</span><div><strong>Contribution two</strong>One sentence on what it is and why it matters.</div></div>
+        <div class="badge"><span class="n">3</span><div><strong>Contribution three</strong>One sentence on what it is and why it matters.</div></div>
+      </div>
+      <figure class="figure">
+        <!-- Swap the placeholder for your architecture figure: <img src="assets/architecture.svg" alt="Architecture"> -->
+        <div class="ph">Architecture figure &mdash; drop <code>architecture.svg</code> here</div>
+        <figcaption>Overview of your method (replace with your own figure).</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── Results (gold .stat cards — gold is reserved for the headline result) ──────────────
+       The numbers below are the worked example; swap them for your paper's. -->
+  <section class="section section--tint" id="results">
+    <div class="wrap">
+      <h2>Results</h2>
+      <div class="stats">
+        <div class="stat"><div class="big">00.0<span class="unit">%</span></div><div class="lab">your headline metric <span>(what it measures)</span></div></div>
+        <div class="stat"><div class="big">0.0<span class="unit">M</span></div><div class="lab">a second number <span>(e.g. parameters)</span></div></div>
+        <div class="stat"><div class="big">N</div><div class="lab">a third number <span>(e.g. datasets)</span></div></div>
+      </div>
+      <figure class="figure">
+        <!-- <img src="assets/results.svg" alt="Results"> -->
+        <div class="ph">Results figure &mdash; drop <code>results.svg</code> here</div>
+        <figcaption>Your main result (replace with your own figure).</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── BibTeX ───────────────────────────────────────────────────────────────────────────── -->
+  <section class="section" id="bibtex">
+    <div class="wrap">
+      <h2>BibTeX</h2>
+      <div class="cite">
+        <button class="copy-btn" type="button" data-copy="#bibtex-src">Copy</button>
+        <span class="vh" role="status" aria-live="polite"></span>
+<pre id="bibtex-src">@inproceedings{lastname20XXkey,
+  title     = {Your Paper Title: A Short, Descriptive Subtitle},
+  author    = {Last, First and Coauthor, Second},
+  booktitle = {Proceedings of the Venue},
+  year      = {20XX}
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Acknowledgements (optional — delete this section if you don't need it) ─────────────── -->
+  <section class="section section--tint" id="acknowledgements">
+    <div class="wrap">
+      <h2>Acknowledgements</h2>
+      <div class="prose">
+        <p>This work was carried out at the Multimodal Intelligence Lab, South Dakota State
+        University. Thank your funders, collaborators, and dataset authors here. Replace this text
+        with your own acknowledgements, or delete the section.</p>
+      </div>
+    </div>
+  </section>
+  <!-- ↑↑↑ EDIT FOR YOUR PROJECT ↑↑↑ -->
+</main>
+
+<!-- ════════════════════════ BRAND CHROME — do not edit ════════════════════════
+     Footer: the permanent home of the SDSU|MINT lockup + the lab QR, with a thin gold top-rule
+     that bookends the gold header. -->
+<footer class="site-footer">
+  <div class="inner">
+    <div class="lockup">
+      <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+      <span class="sep"></span>
+      <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+    </div>
+    <div class="f-text">
+      <strong>Multimodal Intelligence Lab</strong>
+      South Dakota State University &middot; Dept. of Electrical Engineering &amp; Computer Science<br>
+      <a href="https://github.com/Multimodal-Intelligence-Lab">github.com/Multimodal-Intelligence-Lab</a>
+    </div>
+    <img class="f-qr" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">
+  </div>
+</footer>
+
+<!-- Scroll-to-top — brand chrome; revealed by the script once you scroll down. Don't edit. -->
+<button class="to-top" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<script>
+  // Copy-to-clipboard for any [data-copy="#selector"] button (the BibTeX block uses it).
+  // Visible label swap for sighted users + a role="status" region so screen readers hear it.
+  document.querySelectorAll("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var el = document.querySelector(btn.getAttribute("data-copy"));
+      if (!el || !navigator.clipboard) return;
+      var old = btn.textContent;
+      var status = btn.parentNode.querySelector("[role=status]");
+      navigator.clipboard.writeText(el.innerText.trim()).then(function () {
+        btn.textContent = "Copied!";
+        if (status) status.textContent = "BibTeX copied to clipboard";
+        setTimeout(function () { btn.textContent = old; if (status) status.textContent = ""; }, 1500);
+      }).catch(function () { btn.textContent = old; });
+    });
+  });
+
+  // Scroll-to-top: reveal the button past ~400px of scroll (rAF-throttled), jump to top on click.
+  // Honors prefers-reduced-motion (instant, no smooth scroll). Dependency-free.
+  var toTop = document.querySelector(".to-top");
+  if (toTop) {
+    var ticking = false;
+    function syncToTop() { toTop.classList.toggle("show", window.scrollY > 400); ticking = false; }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { requestAnimationFrame(syncToTop); ticking = true; }
+    }, { passive: true });
+    syncToTop();
+    toTop.addEventListener("click", function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+  }
+</script>
+</body>
+</html>

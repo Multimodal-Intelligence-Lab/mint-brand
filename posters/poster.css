@@ -1,0 +1,298 @@
+/* MINT posters — the shared stylesheet. One template, every size.
+   Identity: the MuSDeT look (gold header band, navy body text, blue section bars) carried over
+   from cvpr-poster-template/ and reveal_v4/. Brand primaries are single-sourced from
+   ../brand/colors.css; only the two MuSDeT-identity colors that aren't brand primaries are
+   declared locally below (--poster-ink, --panel). Never paste raw hex anywhere else.
+
+   Everything scales off the page dimensions (--page-w, --page-h) which build.mjs injects per size,
+   so type, header, gaps and bars all grow proportionally — the poster reflows instead of being
+   re-laid-out per size. Units are physical (in/mm) throughout; never px. */
+
+@import "../brand/colors.css";
+@import "../brand/tokens.css";    /* --type-ratio drives the modular type scale built in :root below */
+
+@font-face {
+  font-family: "Inter";
+  src: url("../brand/fonts/inter-variable-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;            /* wait for the real font — never flash a fallback into the PDF */
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../brand/fonts/inter-variable-latin-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: block;
+}
+
+:root {
+  /* Per-size values — build.mjs overrides these with a literal :root block. The defaults here let
+     you open poster.html directly in a browser (previews at 48×36, 3 columns) while editing. */
+  --page-w: 48in;
+  --page-h: 36in;
+  --cols: 3;
+
+  /* Poster-local palette — the two MuSDeT-identity colors that are NOT brand primaries.
+     (Brand primaries --sdsu-blue / --mint-green / --mint-green-deep come from colors.css.) */
+  --poster-ink: #01122b;          /* MuSDeT navy — body text & figure captions */
+  --panel:      #e2e8f0;          /* slate — section content panels */
+
+  /* Derived geometry — all relative to the page so it scales with size. */
+  --header-h:   7.5rem;           /* gold band height (~2.6in @42×21, ~3.5in @48×36) */
+  --band-curve: 2.2rem;           /* header bottom-left sweep (CSS radius — tune to taste) */
+  --footer-h:   2.4rem;           /* optional footer band — slim single line, gold-ruled */
+  --margin:     1.6rem;           /* page inset + column gap (~1.5cm @42×21, matches the original) */
+  --radius:     0.5rem;           /* section-bar top corners (~12pt @42×21) */
+
+  /* ── Modular type scale ──────────────────────────────────────────────────────────────────
+     One ratio (var(--type-ratio), from brand/tokens.css) drives every size, so the hierarchy is
+     systematic instead of hand-tuned. Base = the page-relative root font-size (--fs-md = 1rem, set
+     on <html> below); each step is the previous × / ÷ the ratio, and big contrast comes from taking
+     several steps (title = +3, hero stat = +6). Elements pick a step rather than a bespoke multiplier.
+     NOTE: vertical spacing deliberately stays on --margin's cadence (the verified layout) — this
+     systematizes the *type*, it does not re-flow the poster. A strict baseline grid is intentionally
+     deferred (it fights column-fill: balance, and buys little on a poster). */
+  --fs-md:  1rem;                                                /* body / panel         (ratio^0)  */
+  --fs-sm:  calc(var(--fs-md) / var(--type-ratio));             /* labels, footer, pills (ratio^-1) */
+  --fs-xs:  calc(var(--fs-sm) / var(--type-ratio));             /* captions, fine print  (ratio^-2) */
+  --fs-2xs: calc(var(--fs-xs) / var(--type-ratio));             /* micro-labels          (ratio^-3) */
+  --fs-lg:  calc(var(--fs-md) * var(--type-ratio));             /* authors, section bar  (ratio^1)  */
+  --fs-xl:  calc(var(--fs-lg) * var(--type-ratio) * var(--type-ratio));                     /* title     (ratio^3) */
+  --fs-2xl: calc(var(--fs-xl) * var(--type-ratio) * var(--type-ratio) * var(--type-ratio)); /* hero stat (ratio^6) */
+}
+
+/* LOAD-BEARING: without this Chromium's --print-to-pdf drops every CSS background, border and
+   gradient — section bars, slate panels, the corner triangle and fold guides would all vanish.
+   (Band art survives regardless because it is an <img>, not a CSS background.) */
+html, * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+html {
+  /* base type = mean page dimension / 90 → ~25pt body @42×21, scaling up with poster size */
+  font-size: calc((var(--page-w) + var(--page-h)) / 2 / 90);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--poster-ink);
+  background: var(--paper);
+  orphans: 2; widows: 2;          /* never strand a single line at a column top/bottom */
+}
+
+/* ── Poster shell: header band over a flowing body, sized exactly to the page ───────────── */
+.poster {
+  position: relative;             /* anchor for fold guides */
+  width: var(--page-w);
+  height: var(--page-h);
+  display: grid;
+  /* header · body · optional footer. The 3rd row is `auto`, so with no <footer> it collapses to
+     nothing and the body keeps the full height — the footer is genuinely optional. */
+  grid-template-rows: var(--header-h) 1fr auto;
+  overflow: hidden;
+}
+
+/* ── Header band (port of reveal_v4 .banner / the LaTeX header) ──────────────────────────── */
+.band {
+  position: relative; height: var(--header-h); overflow: hidden;
+  /* Pronounced bottom-left sweep, drawn in CSS so it stays perfectly round at any poster width.
+     (The PNG art has its own curve, but object-fit:fill stretches it flat — this larger radius
+     overrides it cleanly. Raise --band-curve for a deeper sweep, lower it for subtler.) */
+  border-bottom-left-radius: var(--band-curve);
+}
+
+/* Two stacked PNGs, stretched to the full band — matches the LaTeX includegraphics that forces
+   both width and height (non-uniform scale = object-fit: fill, NOT cover). */
+.band .art {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: fill;
+}
+
+/* Folded-paper corner, top-right — the flat blue triangle the original LaTeX poster used (corner-
+   hugging right triangle, ~1/3 of the header height: same size + ratio as the original), but with
+   its lower tip gently rounded so it reads as a soft paper fold rather than a hard wedge. It's the
+   inline <svg class="corner"> in the header markup (same style="fill:var(--…)" pattern as the affil
+   leaf); this rule only sizes/positions it. The path (viewBox 0 0 100 100): top edge → down the
+   right edge to y=80 → quadratic through the corner (100 100) back up the hypotenuse to (86 86) →
+   close, so only the bottom tip is curved. Raise the 80/86 toward 100 for a smaller curl. */
+.band .corner {
+  position: absolute; top: 0; right: 0;
+  width:  calc(var(--header-h) * 0.34);
+  height: calc(var(--header-h) * 0.34);
+}
+
+/* Left logo cluster: SDSU │ MINT, vertically centered */
+.logos {
+  position: absolute; left: var(--margin); top: 50%;
+  transform: translateY(-50%);
+  display: flex; align-items: center; gap: 0.8rem;
+  height: 84%;
+}
+.logos img { height: 100%; width: auto; }
+.logos .logo-mint { height: 90%; }                 /* MINT optically a touch shorter than SDSU */
+.logos .rule { width: 2px; height: 78%; background: var(--sdsu-blue); }
+
+/* Centered title block, inset to clear the side clusters */
+.title-block {
+  position: absolute; left: 21%; right: 21%; top: 50%;
+  transform: translateY(-50%);
+  text-align: center; color: var(--sdsu-blue);
+}
+.title   { font-size: var(--fs-xl); font-weight: 800; line-height: 1.08; margin: 0; text-wrap: pretty; }  /* only the title is bold; pretty wrap avoids a lone last word */
+.authors { font-size: var(--fs-lg); font-weight: 400; margin: 0.4rem 0 0; }       /* authors & affiliation stay regular, */
+.affil   { font-size: var(--fs-md); font-weight: 400; margin: 0.25rem 0 0; }      /* matching the LaTeX poster header */
+.title .model { font-weight: 800; }                /* model name already bold; hook for emphasis */
+.green   { color: var(--mint-green); font-weight: 700; }   /* bold green M / Int accent (the only bold in the affiliation) */
+
+/* Right marks cluster: lab QR (+ optional conference logo). Inset past the corner triangle's
+   footprint (its top-left vertex sits 0.34·header-h in from the right edge) plus a gap, so the
+   conference logo always clears the triangle instead of being sliced by it — matching the original,
+   where the venue logo sits beside the triangle, never under it. Tied to the same 0.34 the triangle
+   uses, so the clearance holds at every page size. */
+.marks {
+  position: absolute; right: calc(var(--header-h) * 0.34 + 0.6rem); top: 50%;
+  transform: translateY(-50%);
+  display: flex; align-items: center; gap: 0.8rem;
+  height: 80%;
+}
+.marks .qr   { height: 95%; width: auto; }   /* QR blends in: transparent bg, green modules on the band */
+.marks .conf { height: 88%; width: auto; }
+/* Placeholder for the optional conference logo (template only — swap for a real <img class="conf">
+   or delete the block). Dashed blue slot so it reads as "fill me in / removable" on the gold band. */
+.marks .conf-ph {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  height: 82%; aspect-ratio: 4 / 3; padding: 0.3rem;
+  border: 0.12rem dashed var(--sdsu-blue); border-radius: 0.3rem;
+  color: var(--sdsu-blue); font-size: 0.6rem; font-weight: 700;   /* off-scale on purpose: placeholder sized to its fixed box (template chrome, not content type) */
+  text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.1; opacity: 0.7;
+}
+
+/* ── Body: content flows into newspaper columns, balanced across the page ───────────────── */
+.body {
+  height: 100%;
+  padding: var(--margin);
+  column-count: var(--cols);
+  column-gap: var(--margin);
+  column-fill: balance;           /* spread content evenly across columns (sparse or full).
+                                     Force an exact break with .break-after where you want one. */
+}
+
+/* A section = blue bar (rounded top) directly over a slate panel. Kept whole within a column. */
+.section { break-inside: avoid; margin-bottom: var(--margin); }
+.bar {
+  background: var(--sdsu-blue);
+  color: var(--paper);
+  font-weight: 800;
+  font-size: var(--fs-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.panel {
+  background: var(--panel);
+  color: var(--poster-ink);
+  padding: 0.9rem;
+  font-size: var(--fs-md);
+  line-height: 1.3;
+  hyphens: auto;                  /* break long words at narrow column edges (html lang=en) */
+}
+.panel :first-child { margin-top: 0; }
+.panel :last-child  { margin-bottom: 0; }
+.panel ul { margin: 0.3rem 0; padding-left: 1.1em; }
+.panel li { margin-bottom: 0.6em; }
+.panel strong { font-weight: 800; }
+
+/* Figures: host arbitrary user art (SVG preferred for A0 sharpness). Never split across a column. */
+.fig { break-inside: avoid; margin: 0.6rem 0; text-align: center; }
+.fig img { width: 100%; height: auto; object-fit: contain; display: block; }
+.fig.wide { column-span: all; }          /* full-width figure spanning every column */
+.caption { font-size: var(--fs-xs); font-style: italic; color: var(--poster-ink); margin-top: 0.3rem; }
+
+/* Placeholder figure box (template only — swap for a real <img src="…svg"> when you have art). */
+.fig .ph {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 7rem; padding: 1rem;
+  border: 0.12rem dashed var(--border); border-radius: 0.3rem;
+  color: var(--ink); opacity: 0.65; font-size: var(--fs-sm);
+}
+
+/* A centered headline/takeaway line for a results section */
+.takeaway { font-weight: 800; text-align: center; margin: 0.2rem 0; }
+.protocol { font-style: italic; font-size: var(--fs-xs); text-align: center; margin: 0.2rem 0 0; }
+
+/* Force the next section into the next column (the body otherwise auto-fills each column in turn).
+   Put on the last section of a column when you want exact column control. */
+.break-after { break-after: column; }
+
+/* ── Trifold: two printed fold guides at 1/3 and 2/3. Because folds coincide with the three
+      column gaps, `break-inside: avoid` on .section already keeps content off the creases. ── */
+body.trifold .poster::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
+  background:
+    linear-gradient(to right, transparent calc(33.333% - 0.5pt), var(--border) calc(33.333% - 0.5pt),
+                    var(--border) calc(33.333% + 0.5pt), transparent calc(33.333% + 0.5pt)),
+    linear-gradient(to right, transparent calc(66.667% - 0.5pt), var(--border) calc(66.667% - 0.5pt),
+                    var(--border) calc(66.667% + 0.5pt), transparent calc(66.667% + 0.5pt));
+}
+
+/* ── Footer band (OPTIONAL) ─────────────────────────────────────────────────────────────────
+   A slim brand-blue strip that balances the gold header: repo · authors+contact · institution/
+   funding (modeled on the reveal_v4 deck footer). Delete the <footer class="footer"> from the HTML
+   to drop it — the poster grid's auto row collapses and the body reclaims the space. Not used in
+   examples/musdet (the original poster has no footer). */
+.footer {
+  min-height: var(--footer-h);
+  padding: 0.4rem var(--margin);
+  background: var(--sdsu-blue);
+  color: var(--paper);
+  border-top: 0.18rem solid var(--sdsu-yellow);   /* gold rule — bookends the gold header */
+  display: flex; align-items: center; justify-content: space-between; gap: var(--margin);
+  font-size: var(--fs-sm);
+}
+.footer .f-org   { font-weight: 800; letter-spacing: 0.01em; }   /* institution anchor (left) */
+.footer .f-links { display: flex; align-items: center; gap: 1.4rem; font-weight: 700; }
+.footer .f-links .lbl {                            /* uppercase mini-label before each link */
+  font-size: var(--fs-2xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+  opacity: 0.72; margin-right: 0.4rem;
+}
+.footer a { color: var(--paper); text-decoration: none; }
+
+/* ── Hierarchy — contribution pills (.badge) ─────────────────────────────────────────────────
+   A numbered pill per contribution (port of reveal_v4 .badge). The number differentiates them, so
+   all circles use the brand blue; a paper may recolour a circle per-contribution if it wants. */
+.badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.5rem 0; }
+.badge {
+  flex: 1 1 0; min-width: 0;
+  display: flex; align-items: center; gap: 0.5rem;
+  background: var(--paper); color: var(--poster-ink);
+  border: 0.12rem solid var(--poster-ink); border-radius: 0.6rem;
+  padding: 0.45rem 0.7rem; font-size: var(--fs-sm); font-weight: 700; line-height: 1.2;
+}
+.badge .n {
+  flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  background: var(--sdsu-blue); color: var(--paper);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: var(--fs-sm); font-weight: 800;
+}
+
+/* ── Hierarchy — takeaway stat cards (.stat) ─────────────────────────────────────────────────
+   A big navy number in a gold-bordered card (port of reveal_v4 .stat). Gold is reserved here for
+   "the headline result" — it ties back to the header and is the poster's one emphasis accent. */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 0.6rem; margin: 0.5rem 0; }
+.stat {
+  background: var(--paper);
+  border: 0.18rem solid var(--sdsu-yellow); border-radius: 0.7rem;
+  padding: 0.6rem 0.5rem; text-align: center;
+}
+.stat .big  { font-size: var(--fs-2xl); font-weight: 900; color: var(--poster-ink); line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .unit { font-size: var(--fs-lg); font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat .lab  { font-size: var(--fs-xs); font-weight: 700; color: var(--ink); margin-top: 0.3rem; }
+.stat .lab span { color: var(--sdsu-blue); }
+
+/* Tabular figures for any inline reported number — equal-width digits align across rows/cards.
+   Add class="num" to a number in running text; the stat cards above already use it. */
+.num { font-variant-numeric: tabular-nums; }

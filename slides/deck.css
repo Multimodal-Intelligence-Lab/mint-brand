@@ -1,0 +1,217 @@
+/* MINT slides — the shared stylesheet for a branded conference talk deck.
+   Identity: the SAME brand as the poster, the demo-page, and the readme-header — gold band + SDSU | MINT
+   lockup + the brand blue — but built for a FIXED 1280×720 presentation stage that deck.js scales to fit
+   the viewport (the reveal_v4 model), NOT a reflowing web page. So sizes here are fixed px against the
+   720-tall stage (the stage scales as one unit) — the stage analog of how demo-pages used responsive
+   clamp() and poster.css used physical mm. NOT a port of either; a fresh screen-unit chrome.
+
+   Brand primaries are single-sourced from ../brand/colors.css (never paste raw hex). The few values
+   declared locally below are NEUTRAL screen affordances with no brand equivalent (the dark backdrop the
+   stage floats on, a shadow) — the same discipline as demo-pages' local --surface/--shadow.
+
+   ACCENT: links, the slide-heading rule, badges and stat qualifiers are driven by one --accent variable,
+   so a deck swaps blue<->green in one line (class="accent-green" on #deck). The gold band chrome (the
+   bar, the lockup divider, title text) stays on --sdsu-blue in BOTH accents — that fixed gold band IS the
+   "same header as the poster/page" identity. Gold (--sdsu-yellow) is reserved for the headline .stat. */
+
+@import "../brand/colors.css";
+@import "../brand/tokens.css";
+
+@font-face {
+  font-family: "Inter";
+  src: url("../brand/fonts/inter-variable-latin.woff2") format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../brand/fonts/inter-variable-latin-italic.woff2") format("woff2");
+  font-weight: 100 900; font-style: italic; font-display: swap;
+}
+
+:root {
+  /* ── Screen NEUTRALS (not brand colors) — declared locally, same discipline as demo-pages ── */
+  --backdrop:  #0c1222;                       /* the dark surround the scaled stage floats on   */
+  --surface:   #f6f7f9;                       /* faint panel — code/figure grounds              */
+  --shadow:    0 0 80px rgba(0, 0, 0, 0.45);  /* the stage lift off the backdrop                */
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  /* ── Stage geometry (fixed — the whole stage scales as a unit) ── */
+  --stage-w: 1280px;
+  --stage-h: 720px;
+  --bar-h:   84px;                            /* the persistent gold band height                */
+  --pad:     64px;                            /* slide body inset                               */
+
+  /* ── Type scale, stepped off the brand --type-ratio (fixed px on the 720 stage) ── */
+  --fs-base: 26px;
+  --fs-sm:   calc(var(--fs-base) / var(--type-ratio));
+  --fs-lg:   calc(var(--fs-base) * var(--type-ratio));
+  --fs-h2:   calc(var(--fs-base) * var(--type-ratio) * var(--type-ratio) * var(--type-ratio));  /* slide heading */
+  --fs-title: 60px;                           /* the talk title on the title slide              */
+  --fs-stat: 76px;                            /* the headline result number                     */
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--backdrop); }
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+
+/* ============================================================================================
+   THE STAGE — fixed 1280×720, scaled to the viewport by deck.js (transform set inline). One slide
+   is shown at a time. The stage scales as a single unit, so everything inside is plain fixed px.
+   ============================================================================================ */
+#deck {
+  position: absolute; top: 0; left: 0;
+  width: var(--stage-w); height: var(--stage-h);
+  transform-origin: top left;                 /* deck.js sets translate()+scale() to center & fit  */
+  background: var(--paper); overflow: hidden;
+  box-shadow: var(--shadow);
+  color: var(--ink); font-size: var(--fs-base); line-height: 1.45;
+  --accent: var(--sdsu-blue);                 /* default deck voice — blue (continuity with the band) */
+}
+#deck.accent-green { --accent: var(--mint-green-deep); }   /* the one-line green swap */
+
+/* ── The persistent gold band (chrome — locked) ─────────────────────────────────────────────
+   The "same gold header as the poster/page": SDSU|MINT lockup (left), the current slide's short
+   title (center, filled by deck.js from the active slide's data-title), and the page number (right).
+   Band text is --sdsu-blue in both accents. The two MuSDeT band PNGs sit behind as a cover layer. */
+.bar {
+  position: absolute; top: 0; left: 0; right: 0; height: var(--bar-h); z-index: 10;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px;
+  padding: 0 var(--pad);
+  background:
+    url("assets/header_over_yellow.png") center / cover no-repeat,
+    url("assets/header_back_yellow.png") center / cover no-repeat,
+    var(--sdsu-yellow);
+  color: var(--sdsu-blue);
+  box-shadow: var(--shadow-sm);
+}
+.bar .lockup { display: flex; align-items: center; gap: 14px; }
+.bar .lockup .sdsu { height: calc(var(--bar-h) * 0.72); width: auto; }   /* SDSU optically a touch taller */
+.bar .lockup .mint { height: calc(var(--bar-h) * 0.66); width: auto; }
+/* Full-height divider — align-self:stretch spans the lockup (reveal_v4's pattern); no margin (a margin
+   here truncated the line to a stub). */
+.bar .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
+.bar .bar-title { text-align: center; font-size: var(--fs-sm); font-weight: 800; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .page { font-size: var(--fs-sm); font-weight: 700; font-variant-numeric: tabular-nums; opacity: 0.9; }
+
+/* Title slide is a full-bleed gold hero: deck.js sets .title-active on #deck while the gold-hero slide is
+   showing, so the band hides (no gold-on-gold seam from its shadow) and the slides area reclaims the band's
+   height to fill edge-to-edge. One class toggle — not a band-state system. */
+#deck.title-active .bar    { display: none; }
+#deck.title-active .slides { top: 0; }
+
+/* ── Slides ──────────────────────────────────────────────────────────────────────────────── */
+.slides { position: absolute; top: var(--bar-h); left: 0; right: 0; bottom: 0; }
+.slide {
+  position: absolute; inset: 0; display: none;
+  flex-direction: column; justify-content: center;
+  padding: var(--pad);
+}
+.slide.active { display: flex; }
+.slide > * { margin: 0; }
+.slide > * + * { margin-top: 0.7em; }
+
+/* Slide heading + the accent rule under it (the deck translation of the poster section bar) */
+.slide h2 { font-size: var(--fs-h2); font-weight: 800; line-height: 1.1; }
+.slide h2::after {
+  content: ""; display: block; width: 56px; height: 4px; border-radius: 2px;
+  background: var(--accent); margin-top: 14px;
+}
+.slide p { max-width: 60ch; }
+.slide a { color: var(--accent); }
+
+/* Bulleted body */
+.slide ul { margin: 0; padding-left: 1.2em; }
+.slide ul li { margin: 0.45em 0; }
+.slide ul li::marker { color: var(--accent); }
+
+/* ── Title slide — the gold hero (flat --sdsu-yellow ground so it reads as one gold field with the
+      bar on top; title text blue, deck/poster style). Authors/affiliation/venue below. ────────── */
+.slide--title {
+  justify-content: center; align-items: center; text-align: center;
+  background: var(--sdsu-yellow); color: var(--sdsu-blue);
+  padding: var(--pad) calc(var(--pad) * 1.5);
+}
+/* The hero carries the lockup itself (the band is hidden on slide 1). Mirrors the .bar lockup, sized up. */
+.slide--title .hero-lockup { display: flex; align-items: center; gap: 18px; }
+.slide--title .hero-lockup .sdsu { height: 76px; width: auto; }
+.slide--title .hero-lockup .mint { height: 70px; width: auto; }
+.slide--title .hero-lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
+.slide--title h1 { font-size: var(--fs-title); font-weight: 900; line-height: 1.08; letter-spacing: 0.2px; max-width: 22ch; }
+.slide--title h1 b { color: var(--sdsu-blue); }
+.slide--title .authors { font-size: var(--fs-lg); font-weight: 700; }
+.slide--title .affil   { font-size: var(--fs-sm); font-weight: 600; opacity: 0.9; max-width: 60ch; }
+.slide--title .venue   { font-size: var(--fs-sm); font-weight: 700; opacity: 0.95; margin-top: 1.2em; }
+
+/* ── Contribution badges (screen-unit, mirrors demo-pages/.badge) ───────────────────────────── */
+.badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
+.badge {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--paper); border: 2px solid var(--border); border-radius: 14px;
+  padding: 20px 22px; box-shadow: var(--shadow-sm);
+}
+.badge .n {
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--accent); color: var(--paper);
+  display: grid; place-items: center; font-weight: 800; font-size: var(--fs-sm);
+}
+.badge .n + div { font-size: var(--fs-sm); line-height: 1.35; }
+.badge strong { display: block; margin-bottom: 4px; }
+
+/* ── Figure slot ─────────────────────────────────────────────────────────────────────────── */
+.figure { width: 100%; text-align: center; }
+.figure img { margin-inline: auto; max-height: 380px; width: auto; border-radius: 10px; }
+.figure .ph {
+  display: grid; place-items: center; min-height: 300px;
+  border: 2px dashed var(--border); border-radius: 12px; color: var(--ink); opacity: 0.65;
+  font-size: var(--fs-sm);
+}
+.figure figcaption { font-size: var(--fs-sm); font-style: italic; opacity: 0.8; margin-top: 14px; }
+
+/* ── Results — gold hero stat cards (gold reserved for the headline result, like the poster/page) ── */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; }
+.stat {
+  background: var(--paper); border: 3px solid var(--sdsu-yellow); border-radius: 16px;
+  padding: 32px 20px; text-align: center; box-shadow: var(--shadow-sm);
+}
+.stat .big { font-size: var(--fs-stat); font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .unit { font-size: 0.5em; font-weight: 800; }
+.stat .lab { font-size: var(--fs-sm); font-weight: 700; margin-top: 14px; }
+.stat .lab span { color: var(--accent); }
+
+/* ── Closing slide — thank-you + lockup + QR (the talk convention: audience photographs the last slide) ── */
+.slide--closing { align-items: center; text-align: center; }
+.slide--closing h2 { font-size: var(--fs-title); }
+.slide--closing h2::after { margin-inline: auto; }
+.slide--closing .end-lockup { display: flex; align-items: center; gap: 18px; margin-top: 0.6em; }
+.slide--closing .end-lockup .sdsu { height: 60px; }
+.slide--closing .end-lockup .mint { height: 54px; }
+.slide--closing .end-lockup .sep  { width: 2px; height: 56px; background: var(--border); }
+.slide--closing .qr { height: 200px; width: auto; margin-top: 0.4em; }
+.slide--closing .links { font-size: var(--fs-sm); font-weight: 700; }
+
+/* ── Reveal primitives (fragments) — ported from reveal_v4. Elements with data-frag start hidden and
+      get .is-in one-by-one as you advance. Honors reduced-motion via the media query below. ────── */
+.r-fade { opacity: 0; transition: opacity 0.5s ease; }
+.r-up   { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.is-in.r-fade { opacity: 1; }
+.is-in.r-up   { opacity: 1; transform: none; }
+[data-frag]:not(.r-fade):not(.r-up) { opacity: 0; transition: opacity 0.5s ease; }   /* default frag = fade */
+[data-frag].is-in { opacity: 1; }
+
+/* ── Keyboard hint (auto-fades after a moment; chrome) ── */
+.hint {
+  position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+  font-family: "Inter", system-ui, sans-serif; font-size: 13px; color: var(--paper); opacity: 0.5;
+  background: rgba(0, 0, 0, 0.35); padding: 6px 14px; border-radius: 999px;   /* neutral scrim, like a shadow */
+  transition: opacity 0.6s ease; pointer-events: none; z-index: 30;
+}
+.hint.gone { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .r-fade, .r-up, [data-frag] { transition: none; }
+}

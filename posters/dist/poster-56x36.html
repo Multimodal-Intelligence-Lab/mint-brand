@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="file:///mmfs1/scratch/jacks.local/hdubey/MINT-Lab/mint/posters/">
+  <meta charset="utf-8">
+  <!-- MINT poster template. Edit the content below, then render to PDF at any size:
+         node build.mjs                 → every catalog size (see sizes.js) into dist/
+         node build.mjs poster.html 48x36   → just one size
+       Rules: never paste raw hex (use var(--…) from ../brand/colors.css); supply figures as SVG
+       for A0 sharpness; keep the opening body tag at the start of its line (build.mjs toggles
+       the trifold class on it). -->
+  <title>MINT poster</title>
+  <link rel="stylesheet" href="poster.css">
+  <style>
+    @page { size: 56in 36in; margin: 0; }
+    :root { --cols: 4; --page-w: 56in; --page-h: 36in; }
+  </style><!-- build.mjs injects the @page size + :root dimensions here. Do not remove. -->
+</head>
+<body>
+  <div class="poster">
+
+    <!-- ── HEADER ─────────────────────────────────────────────────────────────────────── -->
+    <header class="band">
+      <img class="art" src="assets/header_back_yellow.png" alt="">
+      <img class="art" src="assets/header_over_yellow.png" alt="">
+      <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
+      </svg>
+
+      <div class="logos">
+        <img class="logo-sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
+        <span class="rule"></span>
+        <img class="logo-mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
+      </div>
+
+      <div class="title-block">
+        <h1 class="title">Your Paper Title Goes Here: A Concise, Specific Subtitle</h1>
+        <p class="authors">First Author, Second Author, Third Author</p>
+        <p class="affil">South Dakota State University, Dept.&nbsp;of Electrical Engineering &amp; Computer
+          Science, <span class="green">M</span>ultimodal <span class="green">Int</span>elligence Lab
+          <!-- mint M+leaf accent mark — canonical artwork: ../brand/icons/leaf.svg (inlined here so
+               the --mint-green token applies; an <img> SVG can't inherit a CSS var in print). -->
+          <svg class="leaf" viewBox="0 0 576 512" aria-hidden="true" style="height:0.95em;width:1.05em;vertical-align:-0.14em"><path style="fill:var(--mint-green)" d="M546.2 9.7c-5.6-12.5-21.6-13-28.3-1.2C486.9 62.4 431.4 96 368 96h-80C182 96 96 182 96 288c0 7 .8 13.7 1.5 20.5C161.3 262.8 253.4 224 384 224c8.8 0 16 7.2 16 16s-7.2 16-16 16C132.6 256 26 410.1 2.4 468c-6.6 16.3 1.2 34.9 17.5 41.6 16.4 6.8 35-1.1 41.8-17.3 1.5-3.6 20.9-47.9 71.9-90.6 32.4 43.9 94 85.8 174.9 77.2C465 467.5 576 326.7 576 144c0-44.5-13.9-93.4-29.8-134.3z"/></svg>
+        </p>
+      </div>
+
+      <div class="marks">
+        <!-- QR (left) — defaults to the MINT lab QR. To use your OWN instead, drop your personal
+             QR (github.io / website) into assets/, point src at it, and update the alt text. -->
+        <img class="qr" src="../brand/qr/mint-lab-qr.svg" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">
+        <!-- Conference logo (right) — replace this placeholder with your venue's logo:
+               <img class="conf" src="assets/your-conference-logo.png" alt="Conference">
+             …or DELETE this whole block when presenting locally / with no conference. -->
+        <div class="conf-ph">conference<br>logo</div>
+      </div>
+    </header>
+
+    <!-- ── BODY ───────────────────────────────────────────────────────────────────────── -->
+    <!-- Sections flow top-to-bottom, then into the next column. A section is one .bar over one
+         .panel and is never split across a column. Reorder / add / remove freely. -->
+    <main class="body">
+
+      <section class="section">
+        <div class="bar">Motivation</div>
+        <div class="panel">
+          <ul>
+            <li><strong>State the problem.</strong> One sentence on the gap your work addresses.</li>
+            <li><strong>Why it is hard.</strong> The obstacle prior work hits.</li>
+            <li><strong>Your insight.</strong> The idea that resolves it &rarr; your contribution.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="bar">Method</div>
+        <div class="panel">
+          <p>Describe the approach. Drop a figure below — supply it as <strong>SVG</strong> so it stays
+            sharp at A0. A figure that should span all columns gets <code>class="fig wide"</code>.</p>
+          <!-- Contribution pills (optional): one numbered .badge per contribution. The number
+               differentiates them; recolour a circle per-contribution if you want. -->
+          <div class="badges">
+            <div class="badge"><span class="n">1</span>First contribution, in a few words</div>
+            <div class="badge"><span class="n">2</span>Second contribution</div>
+            <div class="badge"><span class="n">3</span>Third contribution</div>
+          </div>
+          <figure class="fig">
+            <!-- Replace this box with your figure:  <img src="assets/your-figure.svg" alt="…"> -->
+            <div class="ph">Your figure here — supply as SVG</div>
+            <figcaption class="caption">Figure 1. One line on what the reader should take away.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="bar">Results</div>
+        <div class="panel">
+          <p class="takeaway">Lead with the headline result, in one bold line.</p>
+          <p class="protocol">Protocol: state the evaluation setup so the number is interpretable.</p>
+          <!-- Hero stat cards (optional): the headline numbers, big. <span class="unit"> sizes the
+               unit; a <span> inside .lab colours a qualifier. -->
+          <div class="stats">
+            <div class="stat"><div class="big">+6.7<span class="unit">pp</span></div><div class="lab">Accuracy <span>(vs. best baseline)</span></div></div>
+            <div class="stat"><div class="big">2.3<span class="unit">×</span></div><div class="lab">Faster inference</div></div>
+            <div class="stat"><div class="big">46<span class="unit">×</span></div><div class="lab">Fewer parameters</div></div>
+          </div>
+          <figure class="fig">
+            <!-- Replace this box with your figure:  <img src="assets/your-results.svg" alt="…"> -->
+            <div class="ph">Your results figure here — supply as SVG</div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="bar">Conclusion</div>
+        <div class="panel">
+          <p>Restate the contribution and its one-sentence implication. Add links / acknowledgements.
+            Scan the lab QR in the header for code and more work.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ── FOOTER (optional) ──────────────────────────────────────────────────────────────
+         Slim brand-blue band with a gold top-rule that bookends the header. Carries only what is
+         NOT already in the header: the paper + project page (distinct from the lab QR up top),
+         plus the institution. Delete this whole <footer> to drop it — the grid's auto row
+         collapses and the body reclaims the space. -->
+    <footer class="footer">
+      <span class="f-org">South Dakota State University</span>
+      <span class="f-links">
+        <span><span class="lbl">Paper</span>arxiv.org/abs/XXXX.XXXXX</span>
+        <span><span class="lbl">Page</span>your-lab.github.io/project</span>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>

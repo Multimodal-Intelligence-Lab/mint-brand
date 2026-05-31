@@ -1,0 +1,67 @@
+# MINT figure system — the brand-universal matplotlib layer.
+#
+# This is to charts what poster.css is to the poster: it *applies* the brand. It lives in
+# posters/ (a module that applies tokens), NOT in brand/ (which is tokens/assets only). Promote
+# to brand/figures/ when a SECOND real consumer (slides, a paper) needs it — not before.
+#
+# Apply it from a plot script with:  examples/plots/mint_figs.apply()
+# (which calls plt.style.use(this file) and registers Inter). The companion mint_figs.py also
+# supplies the PER-PAPER accent slot (gold = our model, m1/m2/m3 = modalities) — those colours
+# are NOT here, because they belong to a paper, not to the brand.
+#
+# The few hex below are brand NEUTRALS, hand-mirrored from ../../brand/colors.css. They are fixed
+# (PMS-locked primaries / fixed neutrals — see colors.css) and do not drift, so a mirror + this
+# pointer is the single-source-of-truth contract; there is deliberately no generator.
+# NB: in a matplotlib style file '#' starts a comment, so hex colours are written WITHOUT it
+# (e.g. 222222 == #222222) — that is matplotlib's convention, not a typo.
+
+# ── Font ──────────────────────────────────────────────────────────────────────────────────
+# Inter is the brand font; brand/fonts ships it as woff2 and matplotlib needs a .ttf, so
+# mint_figs.register_inter() derives a static Inter at generation time. If Inter is not
+# registered, this falls back to DejaVu Sans (and register_inter() warns — fail loud).
+font.family:      sans-serif
+font.sans-serif:  Inter, DejaVu Sans, Arial
+font.size:        18
+
+# ── Text, axes, ticks — brand --ink 222222 (a paper may override to its own ink) ────────────
+text.color:        222222
+axes.labelcolor:   222222
+xtick.color:       222222
+ytick.color:       222222
+xtick.labelcolor:  222222
+ytick.labelcolor:  222222
+axes.titlecolor:   222222
+
+# ── Spines — drop top/right (the lab convention); keep left/bottom as hairlines ─────────────
+axes.spines.top:    False
+axes.spines.right:  False
+axes.edgecolor:     cccccc
+axes.linewidth:     1.2
+
+# ── Grid — off by default; each chart turns it on for its own axis (ax.grid(axis="x"/"y")),
+#    inheriting this light, behind-the-data look. ─────────────────────────────────────────
+axes.grid:      False
+axes.axisbelow: True
+grid.color:     cccccc
+grid.alpha:     0.3
+grid.linewidth: 1.0
+
+# ── Legend — light frame, prefer direct labels over a heavy box ─────────────────────────────
+legend.frameon:    True
+legend.framealpha: 0.95
+legend.edgecolor:  cccccc
+legend.fontsize:   14
+
+# ── Output — transparent figures (they sit on the slate panel / gold band), SVG as glyph PATHS
+#    so the .svg is font-free (no font needed at poster render/print time). ────────────────
+figure.facecolor:    none
+axes.facecolor:      none
+savefig.facecolor:   none
+savefig.transparent: True
+savefig.bbox:        tight
+savefig.dpi:         300
+svg.fonttype:        path
+
+# ── Default colour cycle — colourblind-safe (brand blue lead, then Okabe–Ito). These figures
+#    mostly override with the per-paper accents; this is the fallback when a paper does not. ─
+axes.prop_cycle: cycler('color', ['0033a0', 'e69f00', '009e73', 'cc79a7', '56b4e9', 'd55e00', 'f0e442', '222222'])
