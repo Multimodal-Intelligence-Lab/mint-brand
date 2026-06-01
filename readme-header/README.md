@@ -1,9 +1,10 @@
 # readme-header
 
-A standardized branded header for lab project READMEs — the **same header** as the deck
-(`slides/`) and the poster: a gold band with the **SDSU │ MINT** lockup, the paper title /
-authors / affiliation, and the lab QR. So a project's README opens with the same look as its
-poster, slides, or teaser video — whether or not any of those are embedded.
+A standardized branded header for lab project READMEs — the **same brand identity** as the deck
+(`slides/`) and the poster, ported to a GitHub-friendly **1280×160 banner**: flat gold with the
+**SDSU │ MINT** lockup, a big project title, the affiliation, and the lab QR. So a project's README
+opens with the same look as its poster, slides, or teaser video — whether or not any of those are
+embedded.
 
 ![MINT README header](dist/header.png)
 
@@ -15,9 +16,10 @@ but a PNG always renders. The band is opaque, so the **one** image reads the sam
 
 1. **Copy** `header.html` to a new file *in this folder*, e.g. `my-project.html` (it starts filled in
    with the MuSDeT paper as a worked example — copy it, don't edit the template in place).
-2. **Edit** the marked block in your copy — `title`, `authors`, `affiliation`, and the QR (swap for
-   your project QR or delete the line). Leave the brand chrome above it alone. (A longer title can
-   clip the thin band — drop the `.title` font-size a point or two if yours runs longer.)
+2. **Edit** the marked block in your copy — `title`, `affiliation`, the third `extras` line (a short
+   middot-separated descriptor; or your authors), and the QR (swap for your project QR or delete the
+   line). Leave the brand chrome above it alone. Keep the **title short** — the big type is the point;
+   for a longer title, drop the `.title` font-size a few px (`.center` is clipped by the band).
 3. **Render:** `node build.mjs my-project.html` → writes `dist/my-project.png` (verified to the exact
    pixel size; Inter embedded). Needs a Chromium and this monorepo (for `../brand/`); see `AGENTS.md`.
    (Bare `node build.mjs` re-renders the `header.html` example shown above.)
@@ -28,7 +30,8 @@ but a PNG always renders. The band is opaque, so the **one** image reads the sam
    ![Project header](header.png)
    ```
 
-The proportions match the poster exactly (a 16:1 band — the poster header is 3024×189pt), so it's a
-thin strip, not a tall block.
+It's a **1280×160 banner** (8:1) — sized so the title stays legible at GitHub's rendered README width,
+not the thin poster strip. It carries the same brand identity (gold, SDSU │ MINT lockup, blue title,
+corner triangle, QR) as the deck and poster, ported to that width.
 
 Full agent/build rules: `AGENTS.md`.

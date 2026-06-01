@@ -12,40 +12,40 @@
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
-  /* Same header as the deck and the poster band — a 16:1 strip so it matches
-     the poster exactly (poster header is 3024×189pt = 16:1). Gold band + SDSU|MINT lockup left +
-     title/authors/affiliation centered + QR right + blue corner triangle. Text uses the brand token
-     --sdsu-blue (the poster's choice), never raw hex. Don't edit the chrome below — edit only the
-     marked content in <body>. Re-render with: node build.mjs */
+  /* The lab's GitHub README banner — same brand identity as the deck and the poster band
+     (SDSU|MINT lockup left · big --sdsu-blue title centered · QR right · blue corner triangle),
+     ported to a 1280×160 (8:1) banner so the title reads at GitHub's rendered width. Flat
+     --sdsu-yellow ground, opaque + full-bleed, so the ONE PNG reads on light AND dark GitHub themes.
+     Text uses the brand token --sdsu-blue (never raw hex). Don't edit the chrome below — edit only
+     the marked content in <body>. Keep the title SHORT (the big type is the point); for a long title
+     drop the .title font-size a few px — .center is clipped by the band. Re-render with: node build.mjs */
   .banner {
-    width: 1280px; height: 80px;            /* 16:1 — matches the poster header exactly */
+    width: 1280px; height: 160px;            /* banner — keep fixed; tune the title, not this */
     font-family: "Inter", -apple-system, sans-serif;
-    position: relative; overflow: hidden; background: var(--paper);
+    position: relative; overflow: hidden;
+    background: var(--sdsu-yellow); color: var(--sdsu-blue);
   }
-  .art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .corner { position: absolute; top: 0; right: 0; width: 27px; height: 27px; z-index: 3; }   /* 0.34 × band-h, as the poster */
+  .corner { position: absolute; top: 0; right: 0; width: 54px; height: 54px; z-index: 3; }   /* 0.34 × band-h, as the poster */
   .lockup {
-    position: absolute; left: 22px; top: 50%; transform: translateY(-50%);
-    z-index: 2; display: flex; align-items: center; gap: 11px;
+    position: absolute; left: 34px; top: 50%; transform: translateY(-50%);
+    z-index: 2; display: flex; align-items: center; gap: 18px;
   }
-  .lockup .sdsu { height: 64px; width: auto; display: block; }   /* ~84% of band, as the poster */
-  .lockup .mint { height: 58px; width: auto; display: block; }   /* ~90% of SDSU, as the poster */
+  .lockup .sdsu { height: 116px; width: auto; display: block; }   /* ~72% of band, as the deck/poster */
+  .lockup .mint { height: 106px; width: auto; display: block; }
   .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
   .center {
-    position: absolute; left: 24%; right: 15%; top: 50%; transform: translateY(-50%);
-    text-align: center; z-index: 2; color: var(--sdsu-blue);
+    position: absolute; left: 20%; right: 16%; top: 50%; transform: translateY(-50%);
+    text-align: center; z-index: 2;
   }
-  .center .title   { font-size: 17px; font-weight: 800; line-height: 1.12; letter-spacing: 0.1px; margin: 0; }
-  .center .authors { font-size: 12.5px; font-weight: 700; margin: 3px 0 0; }
-  .center .affil   { font-size: 10px; font-weight: 600; opacity: 0.85; margin: 2px 0 0; white-space: nowrap; }
-  .qr { position: absolute; right: 34px; top: 50%; transform: translateY(-50%); height: 60px; width: auto; z-index: 2; }
+  .center .title   { font-size: 54px; font-weight: 900; line-height: 1.02; letter-spacing: 0.4px; margin: 0; }
+  .center .affil   { font-size: 18px; font-weight: 700; margin: 8px 0 0; opacity: 0.95; }
+  .center .extras  { font-size: 14.5px; font-weight: 600; margin: 4px 0 0; opacity: 0.82; letter-spacing: 0.2px; white-space: nowrap; }
+  .qr { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); height: 108px; width: auto; z-index: 2; }
 </style>
 </head>
 <body>
 <div class="banner">
   <!-- brand chrome — do not edit -->
-  <img class="art" src="assets/header_back_yellow.png" alt="">
-  <img class="art" src="assets/header_over_yellow.png" alt="">
   <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
   </svg>
@@ -57,9 +57,9 @@
 
   <!-- ↓↓↓ EDIT FOR YOUR PROJECT ↓↓↓ -->
   <div class="center">
-    <p class="title"><b>MuSDeT</b>: Multi-Scale Encoding, Gated Fusion, and Temporal Context for Lightweight Wearable Stress Detection</p>
-    <p class="authors">Mukhtiar Ali, Chulwoo Pack</p>
-    <p class="affil">South Dakota State University &middot; Dept. of Electrical Engineering &amp; Computer Science &middot; Multimodal Intelligence Lab</p>
+    <p class="title"><b>MuSDeT</b></p>
+    <p class="affil">South Dakota State University &middot; Multimodal Intelligence Lab</p>
+    <p class="extras">Multi-Scale Encoding &middot; Gated Fusion &middot; Temporal Context</p>
   </div>
   <!-- QR → the lab GitHub org by default; swap for your project QR or delete the line to drop it -->
   <img class="qr" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">

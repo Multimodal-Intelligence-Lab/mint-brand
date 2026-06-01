@@ -1,12 +1,14 @@
 # AGENTS.md — readme-header/
 
-**Status: built.** A branded README header on the MINT brand — the same header as the deck
-(`slides/`) and the poster band, rendered HTML → PNG. Full brand contract:
-`../AGENTS.md`. Usage: `README.md`.
+**Status: built.** A branded README header on the MINT brand — the same brand identity as the deck
+(`slides/`) and the poster, ported to a GitHub-friendly **1280×160 banner**, rendered HTML → PNG. Full
+brand contract: `../AGENTS.md`. Usage: `README.md`.
 
 ## What's here
-- `header.html` — the template you edit (gold band + lockup + title/authors/affiliation + QR + corner
-  triangle). Filled with the MuSDeT paper as the worked example; edit only the marked content block.
+- `header.html` — the template you edit (flat gold banner + lockup + title/affiliation/extras + QR +
+  corner triangle). Filled with a short MuSDeT example; edit only the marked content block.
+- `mint-brand-hero.html` — this repo's own filled instance of the template (the banner at the top of
+  the root README → `docs/samples/hero.png`); the same chrome with the brand-kit's own content.
 - `build.mjs` — renders `header.html` via the cached headless Chromium and **verifies** the PNG's
   exact pixel size (reads the IHDR chunk — the dependency-free analog to how `posters/` verifies PDF
   dims via poppler). Node built-ins only.
@@ -17,21 +19,22 @@
 ```bash
 node build.mjs                      # header.html → dist/header.png   (re-renders the example)
 node build.mjs my-project.html      # a per-project copy → dist/my-project.png
-node build.mjs my-project.html 1280x80   # explicit logical size
+node build.mjs my-project.html 1280x160  # explicit logical size
 ```
 
 ## Per-project headers
 The header is **per-project** — like the poster template, **copy, don't edit in place**: copy
-`header.html` to a new file *in this folder* (e.g. `my-project.html`), swap the title / authors /
-affiliation and the QR in your copy, render it (`node build.mjs my-project.html` → `dist/my-project.png`),
+`header.html` to a new file *in this folder* (e.g. `my-project.html`), swap the title / affiliation /
+extras line and the QR in your copy, render it (`node build.mjs my-project.html` → `dist/my-project.png`),
 and copy *that* PNG into the project's own repo (copy the PNG, don't hotlink). No build step for the
 consumer — they just embed the PNG. `header.html` stays the pristine template/example.
 
 ## Conventions
-- **16:1 band** — matches the poster header exactly (the poster band is 3024×189pt = 16:1). It's a
-  thin strip on purpose; don't grow it into a tall block. `.center` is overflow-clipped by the band,
-  so a long title silently clips top/bottom — drop the `.title` font-size a point or two for a longer
-  title rather than enlarging the band.
+- **1280×160 banner (8:1)** — sized so the title reads at GitHub's rendered README width, NOT the thin
+  16:1 poster strip (a README is viewed on GitHub, where a tiny in-strip title looked bad). It's the
+  same brand identity as the deck/poster header, ported to this medium — not byte-identical chrome.
+  Keep the band height fixed and tune the title: `.center` is overflow-clipped by the band, so keep
+  the title short (the big type is the point) and drop the `.title` font-size a few px for a longer one.
 - **Lockup** — SDSU │ MINT per `../brand/logos/README.md`, composed at the use-site (never a baked
   combined image), SDSU optically a touch taller than MINT, divider a thin rule. On the gold band the
   divider is `--sdsu-blue` (a `--border` #ccc hairline would vanish on gold — context, not a
@@ -42,14 +45,12 @@ consumer — they just embed the PNG. `header.html` stays the pristine template/
   means one PNG serves both light and dark GitHub themes (no `<picture>` needed).
 - **QR** — defaults to the lab org QR (green modules read on the gold band); optional, deletable.
 
-## Gold band art (`assets/`) — promotion is deferred
-The band (`header_*_yellow.png`) is **copied here** so the module is self-contained — the same way
-`posters/assets/` keeps its own copy. It is still flagged **reference-only** (the MuSDeT teaser
-signature, `--ref-musdet-*`), *not* lab brand. `posters/AGENTS.md` says to promote it to `brand/`
-once a second module needs it — and this is that second module — but promoting it declares gold the
-lab's shared header signature (a deliberate brand call) **and** rewires the working poster build, so
-it's left open. Say the word and it moves to `brand/` with the poster regression re-verified. Until
-then, each module keeps its own copy; don't assert gold is lab-brand in docs.
+## Flat gold, no band texture
+This banner uses a **flat `--sdsu-yellow` ground**, not the textured gold-band art the poster /
+slides / videos / demo-pages share (`header_*_yellow.png`). The texture is tuned for the 16:1 strip
+and upscales poorly at 8:1, and a flat opaque fill is what makes one PNG read on both GitHub themes.
+So there is no `assets/` here — nothing to promote to `brand/`; the textured band stays each
+print/stage module's own copy (see `posters/AGENTS.md`).
 
 ## Rules (in addition to ../AGENTS.md)
 1. **Brand by relative path.** `../brand/logos/`, `../brand/colors.css`, `../brand/fonts/`,

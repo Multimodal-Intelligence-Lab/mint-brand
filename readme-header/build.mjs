@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // MINT readme-header — render a self-contained HTML banner into a retina PNG for a GitHub README.
 //
-//   node build.mjs                       header.html → dist/header.png   ← default
-//   node build.mjs header.html 1280x80   explicit file + logical size
+//   node build.mjs                        header.html → dist/header.png   ← default
+//   node build.mjs header.html 1280x160   explicit file + logical size
 //
 // GitHub strips inline SVG and drops web fonts from SVG-as-<img>, so the deliverable is a PNG.
 // We render the HTML with headless Chromium's --screenshot (NOT --print-to-pdf: screenshot crops to
@@ -24,7 +24,7 @@ const HERE = dirname(new URL(import.meta.url).pathname);
 const DIST = join(HERE, "dist");
 
 const SCALE = 2;                 // device-scale-factor → retina PNG (logical W×H rendered at 2×)
-const DEFAULT_SIZE = "1280x80";  // 16:1 — matches the poster header band exactly (poster is 3024×189pt)
+const DEFAULT_SIZE = "1280x160";  // 8:1 GitHub README banner — title reads at GitHub's rendered width
 const HEADLESS = "--headless";   // fallback: "--headless=old" if --screenshot misbehaves in this env
 
 // The Inter woff2 files the banners' @font-face references, resolved to disk. If one is missing or
