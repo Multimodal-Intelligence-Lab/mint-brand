@@ -33,9 +33,10 @@ const stripCssComments  = (s) => s.replace(/\/\*[\s\S]*?\*\//g, "");
 function refsFrom(text) {
   const out = new Set();
   const add = (r) => { if (r && !/^(https?:|mailto:|data:|#|\/)/.test(r)) out.add(r); };
-  for (const m of text.matchAll(/(?:src|href)\s*=\s*"([^"]+)"/g)) add(m[1]);
-  for (const m of text.matchAll(/url\(\s*"?([^"')]+)"?\s*\)/g)) add(m[1]);
-  for (const m of text.matchAll(/@import\s+"([^"]+)"/g)) add(m[1]);
+  for (const m of text.matchAll(/(?:src|href)\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s"'>]+))/g))
+    add(m[1] ?? m[2] ?? m[3]);
+  for (const m of text.matchAll(/url\(\s*['"]?([^'"()]+)['"]?\s*\)/g)) add(m[1]);
+  for (const m of text.matchAll(/@import\s+['"]([^'"]+)['"]/g)) add(m[1]);
   return [...out];
 }
 

@@ -33,6 +33,10 @@ you go; when done, present it, or build + share per `README.md`.
 - `deck.js` — the **engine** (~100 lines, dependency-free): `fitStage()` scaling + keyboard/click nav +
   per-slide fragment reveals. No library, no timeline, no audio.
 - `build.mjs` — the **copier + verifier** (see Build). Node built-ins only; **no Chromium**.
+- `new.mjs` — the **eject** command: `node new.mjs <dest> [name]` stamps a self-contained, repo-free copy of
+  this deck (whole `brand/` kit + band art + project-local agent docs vendored in) to any external folder, so
+  the author starts *there* with nothing to carry — not in `dist/`. Same self-containment assertions as
+  `build.mjs`; node built-ins only. See `README.md`.
 - `assets/` — the gold band PNGs (the self-contained-module precedent; see the band note below).
 - `dist/` — **not committed**; built on demand by `build.mjs`. A built `dist/<deck>/` is a fully
   self-contained copy you present from or share, then delete from here.

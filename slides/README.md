@@ -35,4 +35,13 @@ teaser? That belongs in `videos/`.
 6. **Share** — copy the whole `dist/my-talk/` folder anywhere; it needs nothing else. Copy the folder; don't
    hotlink across repos.
 
+**Prefer to work outside the repo?** Eject a standalone, self-contained deck anywhere in one command, then
+edit and present it there with no monorepo dependency:
+```bash
+node new.mjs ~/talks/my-talk my-talk     # → a ready-to-edit folder: index.html + brand/ + assets/ + agent docs
+```
+Where `build.mjs` packages a *finished* in-repo deck into `dist/`, `new.mjs` stamps a *fresh* deck to author
+from scratch outside the repo (the brand kit, fonts, band art and QR are vendored in, so it needs nothing
+else). Edit its `index.html`; present by opening it. Add `--force` to overwrite a non-empty target.
+
 `dist/` is generated, not committed — build it on demand (step 5). Full agent/build rules: `AGENTS.md`.

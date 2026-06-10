@@ -39,6 +39,7 @@ full steps; the one command that produces the artifact is shown here.
   <td><img src="docs/samples/slide.png" alt="slides"></td>
   <td><b>Slides</b> — a branded 1280×720 slide deck that scales to fit any screen.<br><br>
   Copy <code>slides/deck.html</code>, edit your slides, open it in a browser (no build).<br>
+  Or eject a standalone, repo-free deck anywhere: <code>node slides/new.mjs ~/talks/my-talk</code><br>
   → see <a href="slides/README.md">slides/</a></td>
 </tr>
 <tr>
