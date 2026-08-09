@@ -57,7 +57,9 @@ referenced file resolves inside `dist/<deck>/`. To export PDF: present in a brow
 
 ## Conventions
 - **The gold `.bar` is the standardized chrome** — SDSU│MINT lockup (left), the active slide's `data-title`
-  (center, filled by `deck.js`), the page number (right). It is `--sdsu-blue` in **both** accents — that
+  (center, filled by `deck.js`), the page number (right), and the top-right corner triangle (the same
+  inline `<svg class="corner">` path the poster / demo-page / readme-header use, sized off `--bar-h`;
+  it hides with the band on the gold title hero). It is `--sdsu-blue` in **both** accents — that
   fixed gold band *is* the "same header as the poster/page" identity. The accent must never touch it.
 - **The title slide is the full-bleed gold hero** (`.slide--title`): flat `--sdsu-yellow` ground, big
   `--sdsu-blue` title, authors/affiliation/venue. The band is **hidden while it shows** (`deck.js` toggles

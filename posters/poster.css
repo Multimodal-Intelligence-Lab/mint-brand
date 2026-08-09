@@ -10,6 +10,7 @@
 
 @import "../brand/colors.css";
 @import "../brand/tokens.css";    /* --type-ratio drives the modular type scale built in :root below */
+@import "../brand/wordmark.css";  /* .mint-name .g / .leaf — the lab-name treatment in the affiliation */
 
 @font-face {
   font-family: "Inter";
@@ -145,7 +146,8 @@ body {
 .authors { font-size: var(--fs-lg); font-weight: 400; margin: 0.4rem 0 0; }       /* authors & affiliation stay regular, */
 .affil   { font-size: var(--fs-md); font-weight: 400; margin: 0.25rem 0 0; }      /* matching the LaTeX poster header */
 .title .model { font-weight: 800; }                /* model name already bold; hook for emphasis */
-.green   { color: var(--mint-green); font-weight: 700; }   /* bold green M / Int accent (the only bold in the affiliation) */
+/* The affiliation's lab-name treatment (green M / Int + leaf) is NOT declared here: it is the shared
+   .mint-name block imported from ../brand/wordmark.css. Don't re-declare it locally. */
 
 /* Right marks cluster: lab QR (+ optional conference logo). Inset past the corner triangle's
    footprint (its top-left vertex sits 0.34·header-h in from the right edge) plus a gap, so the

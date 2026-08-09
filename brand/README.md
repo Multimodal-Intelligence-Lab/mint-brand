@@ -1,6 +1,6 @@
 # MINT brand foundation
 
-The single source of truth for the lab's identity — **logos, colors, fonts, icons, QR**. Every other
+The single source of truth for the lab's identity — **logos, colors, wordmark, fonts, icons, QR**. Every other
 module under `mint-brand/` (slides, posters, videos, …) reads from here by relative path; nothing copies
 an asset or hardcodes a color elsewhere.
 
@@ -20,6 +20,8 @@ e.g. `../brand/colors.css`) and use `var(--…)` — don't paste hex.
 | `--mint-green-deep` | `#106f2f` | Deep green — text & strong accents |
 | `--sdsu-yellow` | `#ffd100` | SDSU institutional — SDState Yellow (PMS 109) |
 | `--sdsu-blue` | `#0033a0` | SDSU institutional — SDState Blue (PMS 286) |
+| `--sdsu-campanile` | `#003087` | SDSU institutional secondary — Campanile Blue (PMS 287); the band blue on the printed poster |
+| `--sdsu-navy` | `#0c2340` | SDSU institutional secondary — SDState Navy (PMS 289) |
 | `--ink` | `#222222` | Body text |
 | `--border` | `#cccccc` | Hairlines, dividers |
 | `--paper` | `#ffffff` | Surfaces |
@@ -30,6 +32,12 @@ source for its color). The SDSU primaries are the official
 [SDState brand standards](https://www.sdstate.edu/university-marketing-communications/graphic-identity-standards/colors)
 (PMS 109 / PMS 286) — the logo PNG renders them slightly differently, so use these published
 values, not an eyedrop. The `--ref-musdet-*` set is reference-only example accents, not the lab brand.
+
+## Wordmark
+`wordmark.css` — the one canonical treatment for the lab name in running text: the acronym letters
+(**M**ultimodal **Int**elligence) in `--mint-green` plus the trailing leaf mark. `@import` it next to
+`colors.css` and use `.mint-name` / `.g` / `.leaf`; the copy-paste HTML is in the file's header
+comment. Never re-declare the treatment locally — that is how it drifted into three versions before.
 
 ## Design tokens
 `tokens.css` — the **non-color** design tokens (currently the type-scale ratio) as CSS custom

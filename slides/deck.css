@@ -16,6 +16,7 @@
 
 @import "../brand/colors.css";
 @import "../brand/tokens.css";
+@import "../brand/wordmark.css";   /* .mint-name .g / .leaf — the lab-name treatment in the affiliation */
 
 @font-face {
   font-family: "Inter";
@@ -97,6 +98,16 @@ img { display: block; max-width: 100%; }
 .bar .bar-title { text-align: center; font-size: var(--fs-sm); font-weight: 800; min-width: 0;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bar .page { font-size: var(--fs-sm); font-weight: 700; font-variant-numeric: tabular-nums; opacity: 0.9; }
+/* Folded-paper blue corner triangle, top-right — the same band chrome the poster, demo-page and
+   readme-header carry (identical inline <svg class="corner"> path, filled with style="fill:var(--…)").
+   Sized 0.34 × the band height, as the poster sizes it off --header-h; it sits outside the band's
+   --pad inset, so it never touches the page counter. It rides with the band (hidden on the gold
+   title hero, where the band is hidden and the hero carries the lockup itself). */
+.bar .corner {
+  position: absolute; top: 0; right: 0; z-index: 3;
+  width:  calc(var(--bar-h) * 0.34);
+  height: calc(var(--bar-h) * 0.34);
+}
 
 /* Title slide is a full-bleed gold hero: deck.js sets .title-active on #deck while the gold-hero slide is
    showing, so the band hides (no gold-on-gold seam from its shadow) and the slides area reclaims the band's

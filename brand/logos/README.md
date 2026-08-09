@@ -12,10 +12,17 @@ Four PNGs. Pick by background and available space; never recolor, stretch, or re
 **Clear space:** keep padding of at least the cap-height of the "M" on every side; don't crowd it.
 
 **Lockup (SDSU │ MINT):** the institutional pairing the teaser uses. Place `sdsu-logo.png` and
-`mint-logo.png` side by side, vertically centered, separated by a thin vertical hairline
-(`var(--border)`), each keeping its clear space. **Compose it at the use-site** (e.g. a CSS flex
-row) — don't bake a combined image file (that would duplicate the assets). In the reference deck
-SDSU sits slightly taller than MINT (≈96 px vs ≈86 px) for optical balance.
+`mint-logo.png` side by side, vertically centered, separated by a thin vertical divider, each keeping
+its clear space. **Compose it at the use-site** (e.g. a CSS flex row) — don't bake a combined image
+file (that would duplicate the assets).
+
+- **Divider — pick by ground.** On the **gold band** (poster, README header, deck/teaser bar,
+  demo-page header) it is a 2 px rule in `var(--sdsu-blue)` at ~0.85 opacity: a `var(--border)` #ccc
+  hairline is invisible on gold. On a **light/paper ground** (page footer, closing slide, teaser
+  close) it is the `var(--border)` hairline. Every implementation in this repo follows that split.
+- **Heights.** SDSU sits slightly taller than MINT for optical balance: set MINT to **≈90–92 % of the
+  SDSU height** and keep one value per artifact. That tolerance is what the modules actually use —
+  0.90 (poster), 0.913 (README header, demo-page), 0.9167 (deck/teaser bar), 0.921 (title hero).
 
 **Where these come from:** `mint-logo*.png` and `mint-mark.png` are derived from the lab's master
 logo — white is the logo's own alpha silhouette painted white; the mark

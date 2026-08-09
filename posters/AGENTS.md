@@ -44,13 +44,15 @@ keep it faithful to the original LaTeX poster (`../../cvpr-poster-template/`, re
 - **Hierarchy** — numbered contribution pills (`.badge`) + gold-bordered hero stat cards (`.stat`);
   gold is reserved for the one headline result.
 - **Brand mark** — the mint M+leaf accent is `../brand/icons/leaf.svg`, inlined with
-  `fill:var(--mint-green)`; never re-draw the path.
+  `fill:var(--mint-green)`; never re-draw the path. Its sizing and the green M/Int letters beside it
+  are the shared `.mint-name` treatment from `../brand/wordmark.css` — not declared in `poster.css`.
 
 ## Promotion ledger (→ `brand/`)
 `brand/` is the single source; promote a shared piece there only on its **first real second consumer**
 (the root-`AGENTS.md` rule that stops us re-over-building). Current status:
-- **Promoted (medium-agnostic):** the mint leaf mark (`../brand/icons/leaf.svg`) and the type-scale
-  ratio (`../brand/tokens.css`) — every artifact inherits these as-is.
+- **Promoted (medium-agnostic):** the mint leaf mark (`../brand/icons/leaf.svg`), the type-scale
+  ratio (`../brand/tokens.css`) and the lab-name treatment (`../brand/wordmark.css` — this poster's
+  `.green` rule, promoted once the header/demo-page/deck became consumers) — inherited as-is.
 - **Held here (print-tuned):** the component CSS — header band/art, section bar, panel, footer,
   figure style, `.badge`, `.stat`. They use physical units + `print-color-adjust`; a screen
   (slides/demo) or image (README-header) consumer needs a different implementation, so they stay

@@ -82,7 +82,9 @@ survives; every ref resolves). The live HTML/CSS/JS is the deliverable you open 
 
 ## Conventions
 - **The gold `.bar` is the standardized chrome** — SDSU│MINT lockup (left), the active segment's
-  `data-title` (center, filled by `teaser.js`), a live timecode (right). It is `--sdsu-blue` in **both**
+  `data-title` (center, filled by `teaser.js`), a live timecode (right), and the top-right corner
+  triangle (the same inline `<svg class="corner">` path the poster / demo-page / readme-header use,
+  sized off `--bar-h` so it shrinks with the compact band). It is `--sdsu-blue` in **both**
   accents — that fixed gold band *is* the "same header as the poster/deck" identity. The accent must
   never touch it.
 - **Band states** follow the active segment's `data-band`: `hero` hides the band (the Hook is a

@@ -17,6 +17,7 @@
 
 @import "../brand/colors.css";
 @import "../brand/tokens.css";   /* --type-ratio drives the modular type scale built in :root below */
+@import "../brand/wordmark.css"; /* .mint-name .g / .leaf — the lab-name treatment (band + footer) */
 
 @font-face {
   font-family: "Inter";

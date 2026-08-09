@@ -12,8 +12,10 @@ brand contract: `../AGENTS.md`. Usage: `README.md`.
 - `build.mjs` — renders `header.html` via the cached headless Chromium and **verifies** the PNG's
   exact pixel size (reads the IHDR chunk — the dependency-free analog to how `posters/` verifies PDF
   dims via poppler). Node built-ins only.
-- `assets/` — the gold header band PNGs (see the band note below).
 - `dist/` — the rendered `header.png` (the example output; what a consumer copies).
+
+There is deliberately **no `assets/`** here — this banner is flat gold, not the textured band art the
+other modules carry (see "Flat gold, no band texture" below).
 
 ## Build
 ```bash
@@ -39,8 +41,9 @@ consumer — they just embed the PNG. `header.html` stays the pristine template/
   combined image), SDSU optically a touch taller than MINT, divider a thin rule. On the gold band the
   divider is `--sdsu-blue` (a `--border` #ccc hairline would vanish on gold — context, not a
   contradiction with the lockup recipe's `--border`).
-- **Text colour** — the brand token `var(--sdsu-blue)`, matching the *poster*, not the deck's
-  reference-only `--navy`. Never paste hex (SVG triangle uses `style="fill:var(--…)"`).
+- **Text colour** — the brand token `var(--sdsu-blue)`, matching the *poster* band; not a navy
+  (`--sdsu-navy`, or the poster-local `--poster-ink`) — those are body/ink colours, never the band.
+  Never paste hex (SVG triangle uses `style="fill:var(--…)"`).
 - **PNG, not SVG** — GitHub strips inline SVG and drops web fonts in SVG-as-`<img>`. The opaque band
   means one PNG serves both light and dark GitHub themes (no `<picture>` needed).
 - **QR** — defaults to the lab org QR (green modules read on the gold band); optional, deletable.
