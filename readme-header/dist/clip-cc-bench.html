@@ -15,17 +15,20 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   /* The lab's GitHub README banner — same brand identity as the deck and the poster band
-     (SDSU|MINT lockup left · big --sdsu-blue title centered · QR right · blue corner triangle),
+     (SDSU|MINT lockup left · big brand-blue title centered · QR right · blue corner triangle),
      ported to a 1280×160 (8:1) banner so the title reads at GitHub's rendered width. Flat
      --sdsu-yellow ground, opaque + full-bleed, so the ONE PNG reads on light AND dark GitHub themes.
-     Text uses the brand token --sdsu-blue (never raw hex). Don't edit the chrome below — edit only
+     Text uses a brand token, never raw hex (which one: see the note below). Don't edit the chrome — edit only
      the marked content in <body>. Keep the title SHORT (the big type is the point); for a long title
      drop the .title font-size a few px — .center is clipped by the band. Re-render with: node build.mjs */
+  /* This banner is set in Campanile Blue (PMS 287, --sdsu-campanile) — the SDSU official secondary
+     the lab's printed poster uses — rather than the PMS 286 primary (--sdsu-blue). Both are brand
+     tokens from ../brand/colors.css; no local hex, no override of a token's meaning. */
   .banner {
     width: 1280px; height: 160px;            /* banner — keep fixed; tune the title, not this */
     font-family: "Inter", -apple-system, sans-serif;
     position: relative; overflow: hidden;
-    background: var(--sdsu-yellow); color: var(--sdsu-blue);
+    background: var(--sdsu-yellow); color: var(--sdsu-campanile);
   }
   .corner { position: absolute; top: 0; right: 0; width: 54px; height: 54px; z-index: 3; }   /* 0.34 × band-h, as the poster */
   .lockup {
@@ -33,8 +36,8 @@
     z-index: 2; display: flex; align-items: center; gap: 18px;
   }
   .lockup .sdsu { height: 116px; width: auto; display: block; }   /* ~72% of band, as the deck/poster */
+  .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-campanile); opacity: 0.85; }
   .lockup .mint { height: 106px; width: auto; display: block; }
-  .lockup .sep  { width: 2px; align-self: stretch; background: var(--sdsu-blue); opacity: 0.85; }
   .center {
     position: absolute; left: 20%; right: 16%; top: 50%; transform: translateY(-50%);
     text-align: center; z-index: 2;
@@ -49,7 +52,7 @@
 <div class="banner">
   <!-- brand chrome — do not edit -->
   <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-    <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
+    <path style="fill:var(--sdsu-campanile)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
   </svg>
   <div class="lockup">
     <img class="sdsu" src="../brand/logos/sdsu-logo.png" alt="South Dakota State University">
@@ -59,9 +62,9 @@
 
   <!-- ↓↓↓ EDIT FOR YOUR PROJECT ↓↓↓ -->
   <div class="center">
-    <p class="title"><b>MuSDeT</b></p>
+    <p class="title"><b>CLIP-CC-Bench</b></p>
     <p class="affil mint-name">South Dakota State University &middot; <span class="g">M</span>ultimodal <span class="g">Int</span>elligence Lab&nbsp;<svg class="leaf" viewBox="0 0 576 512" aria-hidden="true"><path d="M546.2 9.7c-5.6-12.5-21.6-13-28.3-1.2C486.9 62.4 431.4 96 368 96h-80C182 96 96 182 96 288c0 7 .8 13.7 1.5 20.5C161.3 262.8 253.4 224 384 224c8.8 0 16 7.2 16 16s-7.2 16-16 16C132.6 256 26 410.1 2.4 468c-6.6 16.3 1.2 34.9 17.5 41.6 16.4 6.8 35-1.1 41.8-17.3 1.5-3.6 20.9-47.9 71.9-90.6 32.4 43.9 94 85.8 174.9 77.2C465 467.5 576 326.7 576 144c0-44.5-13.9-93.4-29.8-134.3z"/></svg></p>
-    <p class="extras">Multi-Scale Encoding &middot; Gated Fusion &middot; Temporal Context</p>
+    <p class="extras">Paragraph-Level Video Description Benchmark &middot; EvalMG @ SIGIR 2026</p>
   </div>
   <!-- QR → the lab GitHub org by default; swap for your project QR or delete the line to drop it -->
   <img class="qr" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">

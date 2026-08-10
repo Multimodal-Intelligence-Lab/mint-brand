@@ -3,7 +3,7 @@
 <head>
   <base href="file:///mmfs1/scratch/jacks.local/mali9292/SIGIR/mint-brand/readme-header/">
 <meta charset="utf-8">
-<title>MINT README header</title>
+<title>MINT Brand Kit — repo banner</title>
 <style>
   @import "../brand/colors.css";
   @import "../brand/wordmark.css";   /* .mint-name .g / .leaf — the lab-name treatment in .affil */
@@ -14,15 +14,13 @@
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
-  /* The lab's GitHub README banner — same brand identity as the deck and the poster band
-     (SDSU|MINT lockup left · big --sdsu-blue title centered · QR right · blue corner triangle),
-     ported to a 1280×160 (8:1) banner so the title reads at GitHub's rendered width. Flat
-     --sdsu-yellow ground, opaque + full-bleed, so the ONE PNG reads on light AND dark GitHub themes.
-     Text uses the brand token --sdsu-blue (never raw hex). Don't edit the chrome below — edit only
-     the marked content in <body>. Keep the title SHORT (the big type is the point); for a long title
-     drop the .title font-size a few px — .center is clipped by the band. Re-render with: node build.mjs */
+  /* Repo banner — the header at the top of the root README. This repo's own filled instance of the
+     header.html template (same 1280×160 flat-gold banner chrome), with the brand-kit's own copy:
+     SDSU|MINT lockup left · title centered · QR right · blue corner triangle. Flat --sdsu-yellow ground,
+     opaque + full-bleed, so one PNG reads on light AND dark GitHub themes. Never paste hex.
+     Render: node build.mjs mint-brand-hero.html 1280x160 */
   .banner {
-    width: 1280px; height: 160px;            /* banner — keep fixed; tune the title, not this */
+    width: 1280px; height: 160px;            /* band height — keep fixed; tune the title, not this */
     font-family: "Inter", -apple-system, sans-serif;
     position: relative; overflow: hidden;
     background: var(--sdsu-yellow); color: var(--sdsu-blue);
@@ -41,13 +39,12 @@
   }
   .center .title   { font-size: 54px; font-weight: 900; line-height: 1.02; letter-spacing: 0.4px; margin: 0; }
   .center .affil   { font-size: 18px; font-weight: 700; margin: 8px 0 0; opacity: 0.95; }
-  .center .extras  { font-size: 14.5px; font-weight: 600; margin: 4px 0 0; opacity: 0.82; letter-spacing: 0.2px; white-space: nowrap; }
+  .center .artifacts { font-size: 14.5px; font-weight: 600; margin: 4px 0 0; opacity: 0.82; letter-spacing: 0.2px; white-space: nowrap; }
   .qr { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); height: 108px; width: auto; z-index: 2; }
 </style>
 </head>
 <body>
 <div class="banner">
-  <!-- brand chrome — do not edit -->
   <svg class="corner" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <path style="fill:var(--sdsu-blue)" d="M0 0 L100 0 L100 88 Q100 100 92 92 Z"/>
   </svg>
@@ -56,16 +53,12 @@
     <span class="sep"></span>
     <img class="mint" src="../brand/logos/mint-logo.png" alt="Multimodal Intelligence Lab">
   </div>
-
-  <!-- ↓↓↓ EDIT FOR YOUR PROJECT ↓↓↓ -->
   <div class="center">
-    <p class="title"><b>MuSDeT</b></p>
+    <p class="title"><b>MINT Brand Kit</b></p>
     <p class="affil mint-name">South Dakota State University &middot; <span class="g">M</span>ultimodal <span class="g">Int</span>elligence Lab&nbsp;<svg class="leaf" viewBox="0 0 576 512" aria-hidden="true"><path d="M546.2 9.7c-5.6-12.5-21.6-13-28.3-1.2C486.9 62.4 431.4 96 368 96h-80C182 96 96 182 96 288c0 7 .8 13.7 1.5 20.5C161.3 262.8 253.4 224 384 224c8.8 0 16 7.2 16 16s-7.2 16-16 16C132.6 256 26 410.1 2.4 468c-6.6 16.3 1.2 34.9 17.5 41.6 16.4 6.8 35-1.1 41.8-17.3 1.5-3.6 20.9-47.9 71.9-90.6 32.4 43.9 94 85.8 174.9 77.2C465 467.5 576 326.7 576 144c0-44.5-13.9-93.4-29.8-134.3z"/></svg></p>
-    <p class="extras">Multi-Scale Encoding &middot; Gated Fusion &middot; Temporal Context</p>
+    <p class="artifacts">Posters &middot; Slides &middot; README Headers &middot; Demo Pages &middot; Teasers</p>
   </div>
-  <!-- QR → the lab GitHub org by default; swap for your project QR or delete the line to drop it -->
   <img class="qr" src="../brand/qr/mint-lab-qr.png" alt="Lab QR — github.com/Multimodal-Intelligence-Lab">
-  <!-- ↑↑↑ EDIT FOR YOUR PROJECT ↑↑↑ -->
 </div>
 </body>
 </html>
