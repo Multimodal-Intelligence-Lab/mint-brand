@@ -1,0 +1,272 @@
+<!-- MINT logo-3d — make-glb.html: the 3D-mark GENERATOR page (driven by make-glb.mjs).
+     Traces brand/logos/mint-mark.png (the 2D master) into exact contours and extrudes them:
+     2x supersampled alpha mask -> directed cell-edge chaining (interior-left, pixel-exact)
+     -> gaussian smoothing (the master's raster edge noise, not the shape) -> Douglas-Peucker
+     -> collinear merge -> total-least-squares segment refit (machined walls, sharp apexes)
+     -> ExtrudeGeometry (depth 0.13 of height, 45deg chamfer 0.012, bevelOffset=-bevel so the
+     front silhouette stays ON the traced contour) -> MeshPhysicalMaterial #478a2d (the
+     --mint-green token; clearcoat acrylic) -> GLTFExporter binary + verification renders.
+     The 3D master is thus DERIVED from the 2D master by a deterministic recipe - one source
+     of truth. Needs ./node_modules/three (one-time; see README "Regenerating the model"). -->
+<style>html,body{margin:0}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+
+// ---- 1. load master PNG, build binary mask (alpha > 127) ----
+const img = new Image();
+img.src = '../brand/logos/mint-mark.png';
+await img.decode();
+// 2x supersample: canvas interpolation turns the master's anti-aliased alpha ramp into
+// half-pixel edge placement, so the threshold crossing lands where the TRUE edge is instead
+// of snapping to the nearest raster pixel — kills the staircase at the source.
+const SS = 2;
+const W = img.width * SS, H = img.height * SS;
+const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+const cx = cv.getContext('2d');
+cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = 'high';
+cx.drawImage(img, 0, 0, W, H);
+const data = cx.getImageData(0, 0, W, H).data;
+const filled = (x, y) => x >= 0 && y >= 0 && x < W && y < H && data[(y * W + x) * 4 + 3] > 127;
+
+// ---- 2. exact boundary polygons: directed cell-edge chaining (interior on the left) ----
+const segs = new Map(); // "x,y" -> array of end points
+const addSeg = (ax, ay, bx, by) => {
+  const k = ax + ',' + ay;
+  (segs.get(k) ?? segs.set(k, []).get(k)).push([bx, by]);
+};
+for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+  if (!filled(x, y)) continue;
+  if (!filled(x, y - 1)) addSeg(x, y, x + 1, y);         // top edge, interior below → dir +x
+  if (!filled(x, y + 1)) addSeg(x + 1, y + 1, x, y + 1); // bottom edge → dir -x
+  if (!filled(x - 1, y)) addSeg(x, y + 1, x, y);         // left edge → dir -y (up)
+  if (!filled(x + 1, y)) addSeg(x + 1, y, x + 1, y + 1); // right edge → dir +y (down)
+}
+const loops = [];
+for (const [start, outs] of segs) {
+  while (outs.length) {
+    const loop = [];
+    let cur = start.split(',').map(Number);
+    let next = outs.pop();
+    loop.push(cur);
+    while (next[0] + ',' + next[1] !== start) {
+      loop.push(next);
+      const o = segs.get(next[0] + ',' + next[1]);
+      next = o.pop();
+      if (!next) throw new Error('open chain at ' + loop.at(-1));
+    }
+    loops.push(loop);
+  }
+}
+
+// ---- 3. Douglas-Peucker simplify (closed: open at farthest-from-centroid point) ----
+function dp(points, eps) {
+  const keep = new Array(points.length).fill(false);
+  keep[0] = keep[points.length - 1] = true;
+  const stack = [[0, points.length - 1]];
+  while (stack.length) {
+    const [a, b] = stack.pop();
+    let dmax = 0, idx = -1;
+    const [ax, ay] = points[a], [bx, by] = points[b];
+    const dx = bx - ax, dy = by - ay, len = Math.hypot(dx, dy) || 1;
+    for (let i = a + 1; i < b; i++) {
+      const d = Math.abs(dy * points[i][0] - dx * points[i][1] + bx * ay - by * ax) / len;
+      if (d > dmax) { dmax = d; idx = i; }
+    }
+    if (dmax > eps) { keep[idx] = true; stack.push([a, idx], [idx, b]); }
+  }
+  return points.filter((_, i) => keep[i]);
+}
+const simplifyIdx = (loop, eps) => {
+  // closed ring: open at far1 and split at far2 (farthest from far1), DP each half —
+  // a single chord with start==end is degenerate and would collapse the whole loop.
+  // Returns INDICES into the rotated ring plus the ring itself, so each kept segment
+  // still knows its dense support points for the least-squares refit below.
+  let far1 = 0, fd = -1;
+  const cx0 = loop.reduce((s, p) => s + p[0], 0) / loop.length;
+  const cy0 = loop.reduce((s, p) => s + p[1], 0) / loop.length;
+  loop.forEach((p, i) => { const d = (p[0]-cx0)**2 + (p[1]-cy0)**2; if (d > fd) { fd = d; far1 = i; } });
+  const ring = loop.slice(far1).concat(loop.slice(0, far1));
+  let far2 = 0; fd = -1;
+  ring.forEach((p, i) => { const d = (p[0]-ring[0][0])**2 + (p[1]-ring[0][1])**2; if (d > fd) { fd = d; far2 = i; } });
+  const dpIdx = (a, b, keep) => {
+    const stack = [[a, b]];
+    while (stack.length) {
+      const [i0, i1] = stack.pop();
+      let dmax = 0, idx = -1;
+      const [ax, ay] = ring[i0], [bx, by] = ring[i1];
+      const dx = bx - ax, dy = by - ay, len = Math.hypot(dx, dy) || 1;
+      for (let i = i0 + 1; i < i1; i++) {
+        const d = Math.abs(dy * ring[i][0] - dx * ring[i][1] + bx * ay - by * ax) / len;
+        if (d > dmax) { dmax = d; idx = i; }
+      }
+      if (dmax > eps) { keep.add(idx); stack.push([i0, idx], [idx, i1]); }
+    }
+  };
+  const keep = new Set([0, far2]);
+  dpIdx(0, far2, keep); dpIdx(far2, ring.length - 1, keep);
+  return { ring, idx: [...keep].sort((x, y) => x - y) };
+};
+// total-least-squares line fit of ring[i..j]; returns {px, py, nx, ny} (point + unit normal)
+const fitLine = (ring, i, j) => {
+  let sx = 0, sy = 0, n = 0;
+  for (let k = i; k <= j; k++) { sx += ring[k][0]; sy += ring[k][1]; n++; }
+  const mx = sx / n, my = sy / n;
+  let sxx = 0, sxy = 0, syy = 0;
+  for (let k = i; k <= j; k++) {
+    const dx = ring[k][0] - mx, dy = ring[k][1] - my;
+    sxx += dx * dx; sxy += dx * dy; syy += dy * dy;
+  }
+  const theta = 0.5 * Math.atan2(2 * sxy, sxx - syy); // direction of major axis
+  return { px: mx, py: my, dx: Math.cos(theta), dy: Math.sin(theta) };
+};
+const intersect = (L1, L2) => {
+  const den = L1.dx * L2.dy - L1.dy * L2.dx;
+  if (Math.abs(den) < 0.14) return null; // near-parallel (<~8deg): unstable, keep original vertex
+  const t = ((L2.px - L1.px) * L2.dy - (L2.py - L1.py) * L2.dx) / den;
+  return [L1.px + t * L1.dx, L1.py + t * L1.dy];
+};
+const simplify = (loop, eps) => {
+  const { ring, idx } = simplifyIdx(loop, eps);
+  const m = idx.length;
+  const fits = [];
+  for (let k = 0; k < m; k++) {
+    const i = idx[k], j = k + 1 < m ? idx[k + 1] : ring.length - 1;
+    fits.push(fitLine(ring, i, Math.max(i + 1, j)));
+  }
+  const out = [];
+  for (let k = 0; k < m; k++) {
+    const prev = fits[(k - 1 + m) % m];
+    const pt = intersect(prev, fits[k]);
+    out.push(pt ?? ring[idx[k]]);
+  }
+  return out;
+};
+const area = (l) => l.reduce((s, p, i) => { const q = l[(i + 1) % l.length]; return s + (p[0] * q[1] - q[0] * p[1]); }, 0) / 2;
+const inside = (pt, poly) => { // even-odd
+  let c = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, yi] = poly[i], [xj, yj] = poly[j];
+    if ((yi > pt[1]) !== (yj > pt[1]) && pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi) c = !c;
+  }
+  return c;
+};
+// gaussian-smooth the dense integer staircase before DP: the alpha>127 threshold jitters
+// the boundary by ~1px, which DP alone keeps as chewed edges. sigma 1.6 over a 9-tap window
+// rounds a >100px-long letterform apex by <1px — below the master's own anti-aliasing.
+const gauss = (loop, sigma = 3.0, taps = 19) => {
+  const n = loop.length, half = (taps - 1) / 2, w = [];
+  let wsum = 0;
+  for (let i = -half; i <= half; i++) { const g = Math.exp(-(i * i) / (2 * sigma * sigma)); w.push(g); wsum += g; }
+  return loop.map((_, i) => {
+    let x = 0, y = 0;
+    for (let k = -half; k <= half; k++) {
+      const p = loop[(i + k + n) % n];
+      x += p[0] * w[k + half]; y += p[1] * w[k + half];
+    }
+    return [x / wsum, y / wsum];
+  });
+};
+const EPS = 4.0;
+// merge consecutive nearly-collinear segments (< 2 deg) so a straight letterform stroke
+// becomes ONE segment -> one flat extrusion wall, no striation
+const mergeCollinear = (poly, maxDeg = 2) => {
+  const out = [];
+  const n = poly.length;
+  for (let i = 0; i < n; i++) {
+    const a = poly[(i - 1 + n) % n], b = poly[i], c = poly[(i + 1) % n];
+    const v1 = [b[0] - a[0], b[1] - a[1]], v2 = [c[0] - b[0], c[1] - b[1]];
+    const ang = Math.abs(Math.atan2(v1[0] * v2[1] - v1[1] * v2[0], v1[0] * v2[0] + v1[1] * v2[1]));
+    if (ang > maxDeg * Math.PI / 180) out.push(b);
+  }
+  return out.length >= 3 ? out : poly;
+};
+const polys = loops.map(l => mergeCollinear(simplify(gauss(l), EPS))).filter(l => l.length >= 3 && Math.abs(area(l)) > 40 * SS * SS);
+// outers vs holes by containment depth
+const meta = polys.map(p => ({ p, a: Math.abs(area(p)), depth: 0 }));
+for (const m of meta) m.depth = meta.filter(o => o !== m && o.a > m.a && inside(m.p[0], o.p)).length;
+const outers = meta.filter(m => m.depth % 2 === 0);
+const holes  = meta.filter(m => m.depth % 2 === 1);
+
+// ---- 4. shapes → extrude (units: height=1, y-up, centered) ----
+const scale = 1 / H;
+const toV2 = ([x, y]) => new THREE.Vector2(x * scale, (H - y) * scale); // y-flip
+const shapes = outers.map(o => {
+  const sh = new THREE.Shape(o.p.map(toV2));
+  for (const h of holes) if (inside(h.p[0], o.p)) sh.holes.push(new THREE.Path(h.p.map(toV2)));
+  return { sh, o };
+});
+const DEPTH = 0.13, BEV = 0.012;
+const CLAY = new URLSearchParams(location.search).has('clay');
+const material = CLAY
+  ? new THREE.MeshStandardMaterial({ color: 0x9a9a9a, roughness: 0.9, metalness: 0 })
+  : new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#478a2d'), metalness: 0, roughness: 0.34,
+      clearcoat: 0.55, clearcoatRoughness: 0.22,
+    });
+const group = new THREE.Group(); group.name = 'MINTMark3D';
+const geos = [];
+for (const { sh, o } of shapes) {
+  const g = new THREE.ExtrudeGeometry(sh, {
+    depth: DEPTH, bevelEnabled: true, bevelThickness: BEV, bevelSize: BEV,
+    bevelOffset: -BEV, bevelSegments: 1, curveSegments: 4,
+  });
+  geos.push({ g, o });
+}
+// name by centroid x: left = M, right = leaf (if a single fused contour: one mesh 'mark-slab')
+const xs = geos.map(({ o }) => o.p.reduce((s, p) => s + p[0], 0) / o.p.length);
+const minX = Math.min(...xs), maxX = Math.max(...xs);
+geos.forEach(({ g }, i) => {
+  const mesh = new THREE.Mesh(g, material);
+  mesh.name = geos.length === 1 ? 'mark-slab'
+    : (xs[i] - minX < (maxX - minX) / 2 ? 'm-letterform' : 'leaf-blade');
+  group.add(mesh);
+});
+// center the group, z-center the slab
+const bb = new THREE.Box3().setFromObject(group);
+const c = bb.getCenter(new THREE.Vector3());
+group.children.forEach(m => m.geometry.translate(-c.x, -c.y, -c.z));
+group.userData.sculptRuntime = { parts: group.children.map(m => m.name), explodable: true, source: 'mint-mark.png alpha-trace' };
+
+// ---- 5. renders: ortho front (reference-aligned), ortho side, perspective 3/4 ----
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf7f6f3);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+const key = new THREE.DirectionalLight(0xffffff, 1.2); key.position.set(-2, 3, 4); scene.add(key);
+scene.add(group);
+
+const shots = {};
+function shoot(w, h, cam) { renderer.setSize(w, h); renderer.render(scene, cam); return renderer.domElement.toDataURL('image/png'); }
+// front ortho, frustum = full PNG canvas rect in model units → pixel-aligned with the reference
+const halfW = (W * scale) / 2, halfH = (H * scale) / 2;
+const front = new THREE.OrthographicCamera(-halfW, halfW, halfH, -halfH, 0.01, 10);
+front.position.set(0, 0, 3); front.lookAt(0, 0, 0);
+shots.front = shoot(W, H, front);
+// side ortho (yaw 90°): frustum sized to depth
+const side = new THREE.OrthographicCamera(-halfH, halfH, halfH, -halfH, 0.01, 10);
+side.position.set(3, 0, 0); side.lookAt(0, 0, 0);
+shots.side = shoot(900, 900, side);
+const tq = new THREE.PerspectiveCamera(32, 1, 0.01, 100);
+tq.position.set(Math.sin(25 * Math.PI / 180) * 2.6, 0.5, Math.cos(25 * Math.PI / 180) * 2.6); tq.lookAt(0, 0, 0);
+shots.threequarter = shoot(1000, 1000, tq);
+
+// ---- 6. export GLB + contours ----
+const glb = await new Promise((res, rej) => new GLTFExporter().parse(group, res, rej, { binary: true }));
+let b64 = '';
+{ const u8 = new Uint8Array(glb);
+  for (let i = 0; i < u8.length; i += 32768) b64 += String.fromCharCode.apply(null, u8.subarray(i, i + 32768));
+  b64 = btoa(b64); }
+window.__RESULT__ = {
+  stats: { loops: loops.length, polys: polys.length, outers: outers.length, holes: holes.length,
+           parts: group.children.map(m => m.name), tris: geos.reduce((s, { g }) => s + (g.index ? g.index.count : g.attributes.position.count) / 3, 0) },
+  contours: { W, H, eps: EPS, outers: outers.map(m => m.p), holes: holes.map(m => m.p) },
+  glbB64: b64, shots,
+};
+document.title = 'BUILT';
+</script></body>

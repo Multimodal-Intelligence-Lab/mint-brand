@@ -20,12 +20,17 @@ Usage: `README.md`.
   `videos/record.mjs`'s sibling (the WebGL-forced differences — an http server for the capture,
   `--enable-unsafe-swiftshader`, posed frames instead of a virtual clock — are documented in its
   header). Node built-ins only; **no npm install**.
+- `make-glb.html` + `make-glb.mjs` — the **deterministic generator** that derives the GLB from
+  `../brand/logos/mint-mark.png` (trace → extrude → export; the html header documents the
+  algorithm). A one-time tool in the qr/fonts tradition: `npm i three --no-save` for the run,
+  delete `node_modules` after; it must never become a build step the brand depends on at rest.
 - `dist/` — **not committed**; built on demand. The root-README sample is a copy at
   `docs/samples/logo-3d.gif`.
 
 ## Rules (in addition to ../AGENTS.md)
 1. **The GLB lives in `brand/logos/` — never copy it into this module** and never inline it into
-   the page as a data URI (that forks the asset). Never re-export or re-compress it casually: the
+   the page as a data URI (that forks the asset). It is regenerated ONLY via `make-glb` (the
+   committed deterministic recipe — never AI image-to-3D, never hand-modelling), and its
    compression is quantization-only ON PURPOSE — Draco/meshopt (`gltfpack -c`,
    `gltf-transform optimize`) would make every web viewer fetch a WASM decoder from a CDN, breaking
    the no-CDN rule silently and far from this folder. Recipe + rules: `../brand/logos/README.md`.

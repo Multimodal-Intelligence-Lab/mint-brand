@@ -37,23 +37,25 @@ master is authoritative (see root `../../AGENTS.md` rule 5).
 
 ## The 3D mark — `mint-mark-3d.glb`
 
-The M+leaf symbol as a solid 3D model: the lab's **one sanctioned three-dimensional rendition** of
-the mark, adopted August 2026. Generated from the master mark with Tripo (AI image-to-3D), then cut
-for the web with gltfpack — **2.97 MB, ~98K triangles**, visually identical to the 57 MB generator
-output it was derived from.
+The M+leaf symbol as a solid 3D model — a **machined-sign extrusion derived from `mint-mark.png`
+by a deterministic recipe**, adopted August 2026. The committed generator
+(`logo-3d/make-glb.{html,mjs}`) traces the master's alpha silhouette (2× supersampled, smoothed
+only enough to remove the raster's edge noise, never the shape) and extrudes it: flat faces,
+dead-straight walls, a small 45° chamfer, sharp apexes. **42.5 KB, 1,464 triangles**, two named
+meshes (`m-letterform`, `leaf-blade`). The PNG stays the single source of truth — the 3D master
+is *derived output*, regenerable from it.
 
-- **Single green by design** — like the white knockout, the 3D rendition drops the two-tone; its
-  baked base color averages the `--mint-green` primary. Never retexture, tint, or recolor it.
-- **Decoder-free by design** — the file uses only `KHR_mesh_quantization` (+
-  `KHR_texture_transform`), which three.js and `<model-viewer>` decode natively. **Never
+- **Exact brand color** — the material's base color is the `--mint-green` token `#478a2d`
+  bit-perfect (verified in the exported `baseColorFactor`), with a clearcoat acrylic finish.
+  Single green by design, like the white knockout. Never retexture, tint, or recolor it.
+- **Decoder-free by design** — the file uses only `KHR_mesh_quantization` +
+  `KHR_materials_clearcoat`, which three.js and `<model-viewer>` handle natively. **Never
   recompress with Draco or meshopt** (`gltfpack -c`, `gltf-transform optimize`): those make every
   web viewer fetch a WASM decoder from a CDN, silently breaking the no-CDN rule far from this file.
-- **Never re-generate.** AI 3D generation is not deterministic — a re-run is a different sculpture.
-  This file is the 3D master; treat it like the PNGs — use as-is, never redraw (root rule 5).
-- **The uncompressed Tripo master (57 MB) is deliberately NOT in git** — git history keeps every
-  byte forever. It is held in lab storage (ask Harsh). To re-derive this file from it:
-  `npx -y gltfpack -i <master>.glb -o mint-mark-3d.glb -si 0.05` — exactly that flag set
-  (simplify + quantize, no `-c`).
+- **Regenerate only via the committed recipe** (`logo-3d/README.md` → "Regenerating the model") —
+  never with AI image-to-3D (a predecessor of this file was Tripo-generated: 56.8 MB,
+  banana-bowed, off-token color; retired for exactly those defects) and never by hand-modelling.
+  The recipe is the 3D mark's vector source.
 
 Use it via [`logo-3d/`](../../logo-3d/README.md) — the branded viewer, the two-line embed, the
 turntable GIF.

@@ -47,6 +47,26 @@ Serve over HTTP (any static host; not `file://`). Those attributes are the viewe
 drop `auto-rotate` for a still the reader spins themselves; the full attribute reference is at
 modelviewer.dev.
 
+## Regenerating the model (the 3D mark's vector source)
+
+`../brand/logos/mint-mark-3d.glb` is **derived from `mint-mark.png` by a deterministic recipe** —
+`make-glb.html` (the trace/extrude algorithm; its header documents every stage) driven by
+`make-glb.mjs` (the `record.mjs`-style on-box CDP driver). Only needed if the 2D master ever
+changes:
+
+```bash
+npm i three@0.170.0 --no-save                # one-time tool, not a repo dependency
+node make-glb.mjs                            # → dist/make-glb/mint-mark-3d-raw.glb + proof renders
+npx -y gltfpack -i dist/make-glb/mint-mark-3d-raw.glb -o dist/make-glb/mint-mark-3d.glb -kn
+# eyeball dist/make-glb/*.png, then:
+cp dist/make-glb/mint-mark-3d.glb ../brand/logos/mint-mark-3d.glb
+rm -rf node_modules package.json package-lock.json
+```
+
+`-kn` keeps the named parts; **never add `-c`/meshopt** (CDN WASM decoders — see
+`../brand/logos/README.md`). The driver fail-louds unless the trace yields exactly the two named
+slabs.
+
 ## Re-render the README GIF
 
 ```bash
@@ -69,4 +89,6 @@ are documented in the script header.
   update: replace with `dist/model-viewer.min.js` from a newer `@google/model-viewer` npm release
   (carry its `LICENSE` along), then re-verify per `AGENTS.md`.
 - `record.mjs` — the turntable-GIF renderer (above).
-- `dist/` — **not committed**; `record.mjs` output. Delete after copying the sample out.
+- `make-glb.html` + `make-glb.mjs` — the **generator recipe** that derives the GLB from the 2D
+  master (above). One-time tools; nothing at rest depends on them.
+- `dist/` — **not committed**; `record.mjs` / `make-glb.mjs` output. Delete after copying out.
