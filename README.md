@@ -15,6 +15,7 @@ mint-brand/
   slides/         ← conference slide decks               — 1280×720 stage, scaled to fit
   videos/         ← auto-playing teasers → MP4/GIF        — timeline + optional voiceover, on-box render
   demo-pages/     ← responsive project / paper pages      — the same brand chrome, built for the web
+  logo-3d/        ← the M+leaf mark in 3D (GLB)           — spinning viewer + two-line embed
   docs/samples/   ← the showcase images below             — regenerable; not source
 ```
 
@@ -53,6 +54,13 @@ full steps; the one command that produces the artifact is shown here.
   <td><b>Demo page</b> — a responsive, branded project / paper page for the web.<br><br>
   Copy <code>demo-pages/page.html</code>, edit your content, open it in a browser (no build).<br>
   → see <a href="demo-pages/README.md">demo-pages/</a></td>
+</tr>
+<tr>
+  <td align="center"><img src="docs/samples/logo-3d.gif" alt="the M+leaf mark spinning in 3D" width="240"></td>
+  <td><b>3D logo</b> — the M+leaf mark as an interactive 3D model: spin it, zoom it, embed it.<br><br>
+  Serve the repo root (<code>python3 -m http.server</code>) and open <code>logo-3d/viewer.html</code>,
+  or embed it in any web page with two lines — <code>model-viewer.min.js</code> + the GLB.<br>
+  → see <a href="logo-3d/README.md">logo-3d/</a></td>
 </tr>
 <tr>
   <td><img src="brand/logos/mint-logo.png" alt="brand foundation" width="180"></td>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MINT Mark 3D</title>
+<link rel="icon" href="../brand/logos/mint-mark.png">
+<style>
+  @import "../brand/colors.css";
+  @import "../brand/wordmark.css";
+  @font-face {
+    font-family: "Inter";
+    src: url("../brand/fonts/inter-variable-latin.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    display: flex; flex-direction: column;
+    background: var(--paper); color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  model-viewer { flex: 1; width: 100%; min-height: 0; }
+  .foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 10px 18px; border-top: 1px solid var(--border); font-size: 14px;
+  }
+  .foot .hint { opacity: .55; }
+  /* Shown only when opened via file:// — browsers block fetch() of the GLB there. */
+  .serve-note {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: var(--paper); text-align: center; padding: 24px; line-height: 1.6;
+  }
+  .serve-note[hidden] { display: none; } /* author display:flex would otherwise beat the UA [hidden] rule */
+  .serve-note code { color: var(--mint-green-deep); }
+</style>
+</head>
+<body>
+<model-viewer
+  src="../brand/logos/mint-mark-3d.glb"
+  alt="The MINT M+leaf mark as a 3D model"
+  camera-controls disable-pan interaction-prompt="none"
+  auto-rotate auto-rotate-delay="0" rotation-per-second="32deg"
+  camera-orbit="25deg 78deg 105%"
+  shadow-intensity="0.9" shadow-softness="0.8" exposure="1">
+</model-viewer>
+<p class="foot">
+  <span class="mint-name"><span class="g">M</span>ultimodal <span class="g">Int</span>elligence
+    Lab&nbsp;<svg class="leaf" viewBox="0 0 576 512" aria-hidden="true"><path
+    style="fill:var(--mint-green)" d="M546.2 9.7c-5.6-12.5-21.6-13-28.3-1.2C486.9 62.4 431.4 96 368 96h-80C182 96 96 182 96 288c0 7 .8 13.7 1.5 20.5C161.3 262.8 253.4 224 384 224c8.8 0 16 7.2 16 16s-7.2 16-16 16C132.6 256 26 410.1 2.4 468c-6.6 16.3 1.2 34.9 17.5 41.6 16.4 6.8 35-1.1 41.8-17.3 1.5-3.6 20.9-47.9 71.9-90.6 32.4 43.9 94 85.8 174.9 77.2C465 467.5 576 326.7 576 144c0-44.5-13.9-93.4-29.8-134.3z"/></svg></span>
+  <span class="hint">drag to rotate &middot; scroll to zoom</span>
+</p>
+<div class="serve-note" hidden>
+  <p><b>Serve this folder over HTTP to load the model.</b><br>
+  Browsers block <code>file://</code> pages from fetching the <code>.glb</code>. From the repo root run<br>
+  <code>python3 -m http.server</code> &nbsp;then open&nbsp; <code>http://localhost:8000/logo-3d/viewer.html</code></p>
+</div>
+<script type="module" src="model-viewer.min.js"></script>
+<script>
+  if (location.protocol === "file:") document.querySelector(".serve-note").hidden = false;
+</script>
+</body>
+</html>
