@@ -11,8 +11,10 @@ HTML → PNG, the same header as the deck/poster; see `readme-header/AGENTS.md`)
 (responsive project-page templates for the web; see `demo-pages/AGENTS.md`), `slides/` (branded
 conference talk decks, a fixed 1280×720 stage; see `slides/AGENTS.md`) and `videos/` (branded auto-playing
 **teasers** — the timed sibling of the deck, a timeline + optional voiceover on the same 1280×720 stage,
-rendered to MP4 by an on-box headless-Chromium/ffmpeg `record.mjs`; see `videos/AGENTS.md`). Every module
-is now built on `brand/`.
+rendered to MP4 by an on-box headless-Chromium/ffmpeg `record.mjs`; see `videos/AGENTS.md`), as is
+`logo-3d/` (the M+leaf mark as a 3D model — the GLB itself lives in `brand/logos/`; the module holds
+the viewer page, the two-line embed recipe, and the turntable-GIF recorder; see `logo-3d/AGENTS.md`).
+Every module is now built on `brand/`.
 `docs/samples/` holds the showcase images embedded in the root `README.md` — regenerable output, not
 source; safe to re-render, never hand-edited.
 
@@ -24,10 +26,11 @@ source; safe to re-render, never hand-edited.
    redraw any logo.
 4. **SDSU is a trademark.** Never recolor, retrace, or redraw it. Only the official vector from the
    university brand office may ever replace the bundled PNG.
-5. **Logos are PNG, not SVG, on purpose.** There is no vector source — the logo masters are PNG
+5. **Logos are PNG, not SVG, on purpose.** There is no vector source — the 2D logo masters are PNG
    only. **Do not autotrace** — it degrades the mark (two-tone green, leaf vein,
    wordmark), and the previous build was reset for exactly that. The 1368 px master is high-res
-   enough for slides, posters, and README headers.
+   enough for slides, posters, and README headers. (The one non-PNG logo asset, the 3D
+   `mint-mark-3d.glb`, carries its own hard rules in `brand/logos/README.md`.)
 6. **QR** lives in `brand/qr/` and encodes the lab GitHub org. Regenerate via its README recipe;
    don't hand-edit the SVG.
 7. **Dependency-free at rest.** No `node_modules`, no build step is required to *use* the brand.
